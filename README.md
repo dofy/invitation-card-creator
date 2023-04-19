@@ -19,8 +19,11 @@ A tool to quickly create multiple Invitation Card images.
 
 ## Powered by
 
+- [Next.js](https://nextjs.org/)
 - [React](https://reactjs.org/)
 - [Grommet](https://v2.grommet.io/)
 - [Axios](https://www.axios.com/)
+- [uuid](https://www.npmjs.com/package/uuid)
 - [Google Fonts](https://fonts.google.com/)
+  - [ZCOOL XiaoWei](https://fonts.google.com/share?selection.family=ZCOOL%20XiaoWei)
 - [iconfont](https://www.iconfont.cn/)
