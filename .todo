@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<todo version="0.1.20">
+    <note priority="medium" time="1681796225" done="1681796625">
+        select an UI package
+        <comment>
+            use grommet
+        </comment>
+    </note>
+    <note priority="medium" time="1681796282">
+        output folder -&gt; uuid -&gt; background &amp; dist folder
+    </note>
+    <note priority="medium" time="1681797081">
+        input fields: background images, name position and font size, name list file
+    </note>
+    <note priority="medium" time="1681797162">
+        Use a step-by-step operation method
+    </note>
+</todo>
