@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box, Diagram } from 'grommet';
+import { Box, Text } from 'grommet';
 
 interface StepProps {
   step: number;
@@ -12,7 +12,16 @@ const StepByStep = ({ step, totalSteps }: StepProps) => {
   return (
     <Box direction="row" justify="around" align="center">
       {steps.map((s) => (
-        <Box key={s.toString()} width="xxsmall" height="xxsmall" round="full" background={s <= step ? 'brand' : 'light-4'} />
+        <Box
+          key={s.toString()}
+          width="xxsmall"
+          height="xxsmall"
+          round="full"
+          align='center'
+          justify='center'
+          background={s <= step ? 'brand' : 'light-4'}>
+          <Text size='large' >{s}</Text>
+        </Box>
       ))
       }
     </Box>
