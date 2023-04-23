@@ -9,12 +9,20 @@ const theme: ThemeType = deepMerge(grommet, {
       family: 'ZCOOL XiaoWei',
       height: '1.7em',
     },
+    colors: {
+      brand: '#009933',
+      background: {
+        dark: '#363636',
+        light: '#f9f9f9',
+      },
+      focus: '#336600',
+    },
   },
 })
 
 export default function App({ Component, pageProps }: AppProps) {
   return (
-    <Grommet theme={theme} themeMode="dark" full>
+    <Grommet theme={theme} themeMode="light" full>
       <Component {...pageProps} />
     </Grommet>
   )
