@@ -5,6 +5,8 @@ import { Box, Main, Page, PageContent, PageHeader } from 'grommet'
 import React from 'react'
 
 export default function Home() {
+  const [step, setStep] = React.useState(3)
+
   return (
     <React.Fragment>
       <GlobalHead />
@@ -14,7 +16,7 @@ export default function Home() {
           <Main>
             <Box>
               <Box>
-                <StepByStep step={1} totalSteps={3} />
+                <StepByStep step={step} totalSteps={5} />
               </Box>
               <Box>--== STEPS ==--</Box>
               <Box>step 1: Upload Background Image</Box>
