@@ -6,14 +6,16 @@ import type { AppProps } from 'next/app'
 const theme: ThemeType = deepMerge(grommet, {
   global: {
     font: {
-      family: "ZCOOL XiaoWei",
-      height: "1.7em",
+      family: 'ZCOOL XiaoWei',
+      height: '1.7em',
     },
-  }
+  },
 })
 
 export default function App({ Component, pageProps }: AppProps) {
-  return (<Grommet theme={theme} themeMode='dark' full>
-    <Component {...pageProps} />
-  </Grommet>)
+  return (
+    <Grommet theme={theme} themeMode="dark" full>
+      <Component {...pageProps} />
+    </Grommet>
+  )
 }
