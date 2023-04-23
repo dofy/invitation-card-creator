@@ -1,7 +1,7 @@
 import GlobalPage from '@/components/GlobalPage'
 import StepByStep from '@/components/StepByStep'
 import StepCard from '@/components/StepCard'
-import { Grid, Notification } from 'grommet'
+import { Box, Grid, Markdown, Notification } from 'grommet'
 import React from 'react'
 
 export default function Home() {
@@ -27,7 +27,31 @@ export default function Home() {
           onNext={() => setStep(step + 1)}
           onCompleted={() => setShowNotification(true)}
         >
-          content...
+          {/* TODO: step card content */}
+          {(() => {
+            switch (step) {
+              case 1:
+                return <Box>step 1: Upload Background Image</Box>
+              case 2:
+                return (
+                  <Box>step 2: Set Name Position & Font Size for Preview</Box>
+                )
+              case 3:
+                return <Markdown>**step 3:** Upload `Names-List` file</Markdown>
+              case 4:
+                return (
+                  <Box>step 4: Set Name Position & Font Size and Preview</Box>
+                )
+              case 5:
+                return <Box>step 5: Upload Names-List file</Box>
+              case 6:
+                return (
+                  <Box>step 6: Set Name Position & Font Size and Preview</Box>
+                )
+              case 7:
+                return <Box>step 7: Upload Names-List file</Box>
+            }
+          })()}
         </StepCard>
         {/* <Box>--== STEPS ==--</Box>
         <Box>step 1: Upload Background Image</Box>
