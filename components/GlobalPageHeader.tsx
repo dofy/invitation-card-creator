@@ -17,7 +17,7 @@ const GlobalPageHeader: React.FC<GlobalPageHeaderProps> = ({
         {icon && icon}
         <Heading
           margin={{
-            horizontal: 'medium',
+            horizontal: 'small',
             bottom: 'small',
             top: 'large',
           }}
