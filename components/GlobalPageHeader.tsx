@@ -1,4 +1,4 @@
-import { Box, Heading } from 'grommet'
+import { Anchor, Box, Heading } from 'grommet'
 
 interface GlobalPageHeaderProps {
   icon?: React.ReactNode
@@ -14,7 +14,7 @@ const GlobalPageHeader: React.FC<GlobalPageHeaderProps> = ({
   return (
     <Box pad="medium">
       <Box gap="small" direction="row" align="baseline">
-        {icon && icon}
+        {icon && <Anchor href="/" label={icon} />}
         <Heading
           margin={{
             horizontal: 'small',
@@ -30,7 +30,7 @@ const GlobalPageHeader: React.FC<GlobalPageHeaderProps> = ({
       {subTitle && (
         <Heading
           color={{ light: 'dark-3', dark: 'light-3' }}
-          margin={{ left: 'large', vertical: 'small' }}
+          margin={{ left: 'medium', vertical: 'small' }}
           level={4}
         >
           {subTitle}
