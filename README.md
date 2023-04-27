@@ -4,14 +4,14 @@ A tool to quickly create multiple Invitation Card images.
 
 ## Usage
 
-1. Chose and upload a background image.
-2. Preview and set Name position & font size.
+1. Chose and Upload a `Background image`.
+2. Preview and set `Name` position & font size.
 3. Upload a text file with names (one name per line).
 4. Download the invitation cards (in one zip file).
 
 ## Visit the website
 
-[https://invitation-card-creator.yahaha.net/](https://invitation-card-creator.yahaha.net/)
+[https://invcard.yahaha.net/](https://invcard.yahaha.net/)
 
 ## License
 
