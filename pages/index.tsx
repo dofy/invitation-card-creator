@@ -24,6 +24,7 @@ export default function Home() {
           isLast={step === totalSteps}
           step={step}
           canGoBack={true}
+          onPrevious={() => setStep(step - 1)}
           onNext={() => setStep(step + 1)}
           onCompleted={() => setShowNotification(true)}
         >
