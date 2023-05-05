@@ -13,7 +13,7 @@ const GlobalPage: React.FC<GlobalPageProps> = ({ children }) => {
   return (
     <React.Fragment>
       <GlobalHead />
-      <Page>
+      <Page kind="narrow">
         <PageContent>
           <GlobalPageHeader
             icon={<UserAdd size="large" color="brand" />}

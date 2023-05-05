@@ -22,7 +22,7 @@ const theme: ThemeType = deepMerge(grommet, {
 
 export default function App({ Component, pageProps }: AppProps) {
   return (
-    <Grommet theme={theme} themeMode="light" full>
+    <Grommet theme={theme} themeMode="light" full="min">
       <Component {...pageProps} />
     </Grommet>
   )
