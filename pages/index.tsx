@@ -6,6 +6,7 @@ import { Grid, Notification } from 'grommet'
 import React from 'react'
 
 export default function Home() {
+  // TODO: get current step from url query
   const totalSteps = 3
   const [step, setStep] = React.useState(1)
   const { title, message, showMessage, setShowMessage } = useData()
