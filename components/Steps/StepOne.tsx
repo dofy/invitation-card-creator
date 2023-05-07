@@ -5,6 +5,11 @@ interface IStepOneProps {
   onCompleted: () => void
 }
 
+const checkImageType = (files?: File[]) => {
+  const allowedTypes = ['image/png', 'image/jpeg', 'image/jpg']
+  return files && files.length > 0 && allowedTypes.includes(files[0].type)
+}
+
 const StepOne: React.FC<IStepOneProps> = ({ onCompleted }) => {
   const [uuid, setUUID] = useState<string>('')
   const [files, setFiles] = useState<File[]>()
@@ -23,12 +28,13 @@ const StepOne: React.FC<IStepOneProps> = ({ onCompleted }) => {
   }, [])
 
   const uploadHandler = () => {
-    if (!files || files.length <= 0) {
+    if (!checkImageType(files)) {
+      // TODO: show error message
       return
     }
 
     const formData = new FormData()
-    formData.append('file', files[0])
+    files && formData.append('file', files[0])
     formData.append('uuid', uuid)
 
     fetch('/api/upload', {
@@ -58,7 +64,7 @@ const StepOne: React.FC<IStepOneProps> = ({ onCompleted }) => {
         }}
       />
       <Button
-        disabled={!files || files.length <= 0}
+        disabled={!checkImageType(files)}
         label="Upload Background"
         onClick={uploadHandler}
       />
