@@ -1,3 +1,4 @@
+import { useData } from '@/context/Context'
 import { Box, Button, FileInput } from 'grommet'
 import React, { useEffect, useState } from 'react'
 
@@ -11,7 +12,7 @@ const checkImageType = (files?: File[]) => {
 }
 
 const StepOne: React.FC<IStepOneProps> = ({ onCompleted }) => {
-  const [uuid, setUUID] = useState<string>('')
+  const { uuid, setUUID } = useData()
   const [files, setFiles] = useState<File[]>()
 
   useEffect(() => {

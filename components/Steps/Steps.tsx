@@ -1,8 +1,9 @@
 import { useData } from '@/context/Context'
-import { Box, Markdown } from 'grommet'
+import { Markdown } from 'grommet'
 import React from 'react'
 import StepCard from '../StepCard'
 import StepOne from './StepOne'
+import StepTwo from './StepTwo'
 
 interface IStepsProps {
   step: number
@@ -37,7 +38,16 @@ const Steps: React.FC<IStepsProps> = ({ step, totalSteps, onStepChange }) => {
               />
             )
           case 2:
-            return <Box>step 2: Set Name Position & Font Size for Preview</Box>
+            return (
+              <StepTwo
+                onCompleted={() => {
+                  setTitle('Success')
+                  setMessage('Names List Uploaded')
+                  setShowMessage(true)
+                  onStepChange(++step)
+                }}
+              />
+            )
           case 3:
             return <Markdown>**step 3:** Upload `Names-List` file</Markdown>
         }
