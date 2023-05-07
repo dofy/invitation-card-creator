@@ -1,8 +1,7 @@
 import GlobalPage from '@/components/GlobalPage'
 import StepByStep from '@/components/StepByStep'
-import StepCard from '@/components/StepCard'
 import Steps from '@/components/Steps/Steps'
-import { Box, Grid, Markdown } from 'grommet'
+import { Grid } from 'grommet'
 import React from 'react'
 
 export default function Home() {

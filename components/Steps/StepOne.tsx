@@ -55,10 +55,11 @@ const StepOne: React.FC<IStepOneProps> = ({ onCompleted }) => {
     <Box gap="medium" pad="small">
       <FileInput
         name="bgfile"
+        messages={{
+          dropPrompt: 'Drop your background image here or',
+        }}
         onChange={(_, files) => {
-          console.log(files?.files)
           setFiles(files?.files)
-          // onCompleted()
         }}
       />
       <Button
