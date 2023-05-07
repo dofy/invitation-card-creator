@@ -34,7 +34,7 @@ const StepOne: React.FC<IStepOneProps> = ({ onCompleted }) => {
     }
 
     const formData = new FormData()
-    formData.append('bgfile', files[0])
+    formData.append('file', files[0])
     formData.append('uuid', uuid)
 
     fetch('/api/upload', {
@@ -42,9 +42,11 @@ const StepOne: React.FC<IStepOneProps> = ({ onCompleted }) => {
       body: formData,
     })
       .then((res: Response) => res.json())
-      .then((res) => {
-        console.log(res)
-        // onCompleted()
+      .then((data) => {
+        console.log(data, onCompleted)
+        if (data.uuid && data.url) {
+          onCompleted()
+        }
       })
       .catch((err) => {
         console.error(err)

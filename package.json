@@ -14,6 +14,7 @@
     "@types/react-dom": "18.2.4",
     "eslint": "^8.40.0",
     "eslint-config-next": "13.4.1",
+    "formidable": "^2.1.1",
     "grommet": "^2.32.0",
     "grommet-icons": "^4.10.0",
     "next": "13.4.1",
@@ -24,6 +25,7 @@
     "uuid": "^9.0.0"
   },
   "devDependencies": {
+    "@types/formidable": "^2.0.5",
     "@types/uuid": "^9.0.1"
   }
 }

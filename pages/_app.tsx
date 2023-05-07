@@ -1,3 +1,4 @@
+import { DataProvider } from '@/context/Context'
 import '@/styles/globals.css'
 import { Grommet, ThemeType, grommet } from 'grommet'
 import { deepMerge } from 'grommet/utils'
@@ -32,8 +33,10 @@ export default function App({ Component, pageProps }: AppProps) {
   }, [])
 
   return (
-    <Grommet theme={theme} themeMode={dark ? 'dark' : 'light'} full="min">
-      <Component {...pageProps} />
-    </Grommet>
+    <DataProvider>
+      <Grommet theme={theme} themeMode={dark ? 'dark' : 'light'} full="min">
+        <Component {...pageProps} />
+      </Grommet>
+    </DataProvider>
   )
 }
