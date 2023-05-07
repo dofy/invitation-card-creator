@@ -2,7 +2,7 @@ import type { File } from 'formidable'
 import formidable from 'formidable'
 import { mkdirSync, readFileSync, unlinkSync, writeFileSync } from 'fs'
 import { NextApiRequest, NextApiResponse } from 'next'
-import path, { resolve } from 'path'
+import path from 'path'
 
 type ResData =
   | {

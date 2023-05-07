@@ -12,21 +12,15 @@ const StepOne: React.FC<IStepOneProps> = ({ onCompleted }) => {
   useEffect(() => {
     fetch('/api/init', {
       method: 'GET',
-      // method: 'POST',
     })
       .then((res: Response) => res.json())
       .then(({ uuid }) => {
-        console.log({ uuid })
         setUUID(uuid)
       })
       .catch((err) => {
         console.error(err)
       })
   }, [])
-
-  useEffect(() => {
-    console.log('files:', files)
-  }, [files])
 
   const uploadHandler = () => {
     if (!files || files.length <= 0) {
@@ -43,7 +37,6 @@ const StepOne: React.FC<IStepOneProps> = ({ onCompleted }) => {
     })
       .then((res: Response) => res.json())
       .then((data) => {
-        console.log(data, onCompleted)
         if (data.uuid && data.url) {
           onCompleted()
         }

@@ -1,8 +1,8 @@
+import { useData } from '@/context/Context'
 import { Box, Markdown } from 'grommet'
 import React from 'react'
 import StepCard from '../StepCard'
 import StepOne from './StepOne'
-import { useData } from '@/context/Context'
 
 interface IStepsProps {
   step: number
@@ -19,7 +19,7 @@ const Steps: React.FC<IStepsProps> = ({ step, totalSteps, onStepChange }) => {
       step={step}
       canGoBack={true}
       onPrevious={() => onStepChange(step - 1)}
-      onNext={() => onStepChange(step + 1)}
+      // onNext={() => onStepChange(step + 1)}
       // onCompleted={() => setShowNotification(true)}
     >
       {/* TODO: step card content */}
@@ -32,7 +32,7 @@ const Steps: React.FC<IStepsProps> = ({ step, totalSteps, onStepChange }) => {
                   setTitle('Success')
                   setMessage('Background Image Uploaded')
                   setShowMessage(true)
-                  // onStepChange(2)
+                  onStepChange(++step)
                 }}
               />
             )
