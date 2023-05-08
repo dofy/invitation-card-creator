@@ -9,7 +9,7 @@ export default function Home() {
   // TODO: get current step from url query
   const totalSteps = 3
   const [step, setStep] = React.useState(1)
-  const { title, message, showMessage, setShowMessage } = useData()
+  const { show, title, message, hideMessage } = useData()
 
   return (
     <GlobalPage>
@@ -17,15 +17,13 @@ export default function Home() {
         <StepByStep step={step} totalSteps={totalSteps} />
         <Steps step={step} totalSteps={totalSteps} onStepChange={setStep} />
       </Grid>
-      {showMessage && (
+      {show && (
         <Notification
           toast
           title={title}
           message={message}
           status="info" // TODO: change notification status in context
-          onClose={() => {
-            setShowMessage(false)
-          }}
+          onClose={hideMessage}
         />
       )}
     </GlobalPage>

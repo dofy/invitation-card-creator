@@ -12,7 +12,7 @@ interface IStepsProps {
 }
 
 const Steps: React.FC<IStepsProps> = ({ step, totalSteps, onStepChange }) => {
-  const { setTitle, setMessage, setShowMessage } = useData()
+  const { showMessage } = useData()
   return (
     <StepCard
       isFirst={step === 1}
@@ -30,9 +30,7 @@ const Steps: React.FC<IStepsProps> = ({ step, totalSteps, onStepChange }) => {
             return (
               <StepOne
                 onCompleted={() => {
-                  setTitle('Success')
-                  setMessage('Background Image Uploaded')
-                  setShowMessage(true)
+                  showMessage('Success', 'Background Image Uploaded')
                   onStepChange(++step)
                 }}
               />
@@ -41,9 +39,6 @@ const Steps: React.FC<IStepsProps> = ({ step, totalSteps, onStepChange }) => {
             return (
               <StepTwo
                 onCompleted={() => {
-                  setTitle('Success')
-                  setMessage('Names List Uploaded')
-                  setShowMessage(true)
                   onStepChange(++step)
                 }}
               />

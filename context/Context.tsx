@@ -1,25 +1,23 @@
 import { createContext, useContext, useState } from 'react'
 
 type DataType = {
-  uuid:string
+  uuid: string
+  show: boolean
   title: string
   message: string
-  showMessage: boolean
   setUUID: (uuid: string) => void
-  setTitle: (title: string) => void
-  setMessage: (message: string) => void
-  setShowMessage: (show: boolean) => void
+  showMessage: (title: string, message: string) => void
+  hideMessage: () => void
 }
 
 const DefaultData: DataType = {
   uuid: '',
+  show: false,
   title: '',
   message: '',
-  showMessage: false,
   setUUID: () => {},
-  setTitle: () => {},
-  setMessage: () => {},
-  setShowMessage: () => {},
+  showMessage: () => {},
+  hideMessage: () => {},
 }
 
 const DataContext = createContext<DataType>(DefaultData)
@@ -34,23 +32,30 @@ type Props = {
 
 export function DataProvider({ children }: Props) {
   const [uuid, setUUID] = useState<string>(DefaultData.uuid)
+  const [show, setShow] = useState<boolean>(DefaultData.show)
   const [title, setTitle] = useState<string>(DefaultData.title)
   const [message, setMessage] = useState<string>(DefaultData.message)
-  const [showMessage, setShowMessage] = useState<boolean>(
-    DefaultData.showMessage
-  )
+
+  const showMessage = (title: string, message: string) => {
+    setTitle(title)
+    setMessage(message)
+    setShow(true)
+  }
+
+  const hideMessage = () => {
+    setShow(false)
+  }
 
   return (
     <DataContext.Provider
       value={{
         uuid,
+        show,
         title,
         message,
-        showMessage,
         setUUID,
-        setTitle,
-        setMessage,
-        setShowMessage,
+        showMessage,
+        hideMessage,
       }}
     >
       {children}
