@@ -1,5 +1,12 @@
 import { useData } from '@/context/Context'
-import { Box, FormField, Heading, Image, RangeInput } from 'grommet'
+import {
+  Box,
+  FormField,
+  Heading,
+  Image,
+  RadioButtonGroup,
+  RangeInput,
+} from 'grommet'
 import React, { useEffect, useState } from 'react'
 import { GithubPicker } from 'react-color'
 
@@ -12,10 +19,10 @@ const StepTwo: React.FC<IStepTwoProps> = ({ onCompleted }) => {
   const [top, setTop] = useState(0)
   const [left, setLeft] = useState(0)
   const [right, setRight] = useState(0)
-  const [bottom, setBottom] = useState(0)
   const [width, setWidth] = useState(0)
   const [height, setHeight] = useState(0)
   const [size, setSize] = useState(24)
+  const [align, setAlign] = useState('left')
   const [color, setColor] = useState('#000000')
 
   useEffect(() => {
@@ -23,7 +30,6 @@ const StepTwo: React.FC<IStepTwoProps> = ({ onCompleted }) => {
       .then((res) => res.json())
       .then(({ width, height }) => {
         setRight(width)
-        setBottom(height)
         setWidth(width)
         setHeight(height)
       })
@@ -32,6 +38,7 @@ const StepTwo: React.FC<IStepTwoProps> = ({ onCompleted }) => {
   return (
     <Box gap="medium" pad="small">
       <Box gap="samll">
+        {/* TODO: change to grid */}
         <Heading level={4}>Name Text:</Heading>
         <Box direction="row">
           <Box basis="1/2">
@@ -39,7 +46,7 @@ const StepTwo: React.FC<IStepTwoProps> = ({ onCompleted }) => {
               <RangeInput
                 value={left}
                 min={0}
-                max={width / 2}
+                max={right}
                 onChange={({ target: { value } }) => {
                   setLeft(parseInt(value))
                 }}
@@ -50,7 +57,7 @@ const StepTwo: React.FC<IStepTwoProps> = ({ onCompleted }) => {
             <FormField label={`Rigth: ${right}`}>
               <RangeInput
                 value={right}
-                min={width / 2}
+                min={left}
                 max={width}
                 onChange={({ target: { value } }) => {
                   setRight(parseInt(value))
@@ -65,27 +72,13 @@ const StepTwo: React.FC<IStepTwoProps> = ({ onCompleted }) => {
               <RangeInput
                 value={top}
                 min={0}
-                max={height / 2}
+                max={height}
                 onChange={({ target: { value } }) => {
                   setTop(parseInt(value))
                 }}
               />
             </FormField>
           </Box>
-          <Box basis="1/2">
-            <FormField label={`Bottom: ${bottom}`}>
-              <RangeInput
-                value={bottom}
-                min={height / 2}
-                max={height}
-                onChange={({ target: { value } }) => {
-                  setBottom(parseInt(value))
-                }}
-              />
-            </FormField>
-          </Box>
-        </Box>
-        <Box direction="row">
           <Box basis="1/2">
             <FormField label={`Font Size: ${size}`}>
               <RangeInput
@@ -95,6 +88,19 @@ const StepTwo: React.FC<IStepTwoProps> = ({ onCompleted }) => {
                 onChange={({ target: { value } }) => {
                   setSize(parseInt(value))
                 }}
+              />
+            </FormField>
+          </Box>
+        </Box>
+        <Box direction="row">
+          <Box basis="1/2">
+            <FormField label="Text Align:">
+              <RadioButtonGroup
+                name="align"
+                value={align}
+                direction="row"
+                options={['left', 'center', 'right']}
+                onChange={({ target: { value } }) => setAlign(value)}
               />
             </FormField>
           </Box>
