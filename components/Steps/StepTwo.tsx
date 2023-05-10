@@ -42,25 +42,25 @@ const StepTwo: React.FC<IStepTwoProps> = ({ onCompleted }) => {
         <Heading level={4}>Name Text Box:</Heading>
         <Box direction="row">
           <Box fill={true}>
-            <FormField label={`Top: ${top}`}>
-              <RangeInput
-                value={top}
-                min={0}
-                max={height}
-                onChange={({ target: { value } }) => {
-                  setTop(parseInt(value))
-                }}
-              />
-            </FormField>
-          </Box>
-          <Box fill={true}>
-            <FormField label={`Left: ${left}`}>
+            <FormField label={`X: ${left}`}>
               <RangeInput
                 value={left}
                 min={0}
                 max={width}
                 onChange={({ target: { value } }) => {
                   setLeft(parseInt(value))
+                }}
+              />
+            </FormField>
+          </Box>
+          <Box fill={true}>
+            <FormField label={`Y: ${top}`}>
+              <RangeInput
+                value={top}
+                min={0}
+                max={height}
+                onChange={({ target: { value } }) => {
+                  setTop(parseInt(value))
                 }}
               />
             </FormField>
@@ -105,7 +105,7 @@ const StepTwo: React.FC<IStepTwoProps> = ({ onCompleted }) => {
             <Image
               alt="background"
               fit="cover"
-              src={`/output/${uuid}/background`}
+              src={`/api/output/${uuid}/background`}
             />
           </Box>
           <Box>

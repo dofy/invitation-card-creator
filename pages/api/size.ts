@@ -1,5 +1,4 @@
 import { NextApiRequest, NextApiResponse } from 'next'
-import { cwd } from 'process'
 
 type ResData =
   | {
@@ -14,7 +13,7 @@ type ResData =
 const getImageSize = (uuid: string, res: NextApiResponse<ResData>) => {
   const { imageSize } = require('image-size')
   const { join } = require('path')
-  const path = join(cwd(), 'public', 'output', uuid, 'background')
+  const path = join('output', uuid, 'background')
 
   imageSize(path, (err: any, dimensions: ResData) => {
     if (err) {

@@ -26,14 +26,9 @@ const StepOne: React.FC<IStepOneProps> = ({ onCompleted }) => {
       .catch((err) => {
         console.error(err)
       })
-  }, [])
+  }, [setUUID])
 
   const uploadHandler = () => {
-    if (!checkImageType(files)) {
-      // TODO: show error message
-      return
-    }
-
     const formData = new FormData()
     files && formData.append('file', files[0])
     formData.append('uuid', uuid)

@@ -32,7 +32,7 @@ const post = (req: NextApiRequest, res: NextApiResponse<ResData>) => {
 
 const saveFile = (uuid: string, file: File) => {
   // create path
-  const folder = path.join(process.cwd(), 'public', 'output', uuid)
+  const folder = path.join(process.cwd(), 'output', uuid)
   mkdirSync(folder, { recursive: true })
   // read and write file
   const data = readFileSync(file.filepath)

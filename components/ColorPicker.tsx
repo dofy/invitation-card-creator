@@ -11,7 +11,11 @@ const ColorPicker: React.FC<IColorPickerProps> = ({ color, onChange }) => {
   const [show, setShow] = useState(false)
 
   return (
-    <Stack>
+    <Stack
+      style={{
+        zIndex: 99,
+      }}
+    >
       <Box
         onClick={() => setShow(!show)}
         background={color}
@@ -40,7 +44,7 @@ const ColorPicker: React.FC<IColorPickerProps> = ({ color, onChange }) => {
             '#BED3F3',
             '#D4C4FB',
           ]}
-          onChangeComplete={({ hex }) => {
+          onChange={({ hex }) => {
             setShow(false)
             onChange(hex)
           }}
