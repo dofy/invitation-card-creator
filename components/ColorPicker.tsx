@@ -13,7 +13,7 @@ const ColorPicker: React.FC<IColorPickerProps> = ({ color, onChange }) => {
   return (
     <Stack
       style={{
-        zIndex: 99,
+        zIndex: 1,
       }}
     >
       <Box

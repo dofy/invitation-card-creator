@@ -117,7 +117,7 @@ const StepTwo: React.FC<IStepTwoProps> = ({ onCompleted }) => {
               fontSize={size}
               fontColor={color}
               fontAlign={align}
-              text="匿名 No Name"
+              text="[匿名 Name]"
             />
           </Box>
         </Stack>
