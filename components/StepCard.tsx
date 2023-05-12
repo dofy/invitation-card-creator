@@ -8,8 +8,8 @@ import {
 } from 'grommet'
 
 interface StepCardProps {
-  isFirst: boolean
-  isLast: boolean
+  isFirst?: boolean
+  isLast?: boolean
   step: number
   canGoBack?: boolean
   onPrevious?: () => void
@@ -22,8 +22,8 @@ interface StepCardProps {
 }
 
 const StepCard: React.FC<StepCardProps> = ({
-  isFirst,
-  isLast,
+  isFirst=false,
+  isLast=false,
   step,
   canGoBack = false,
   onPrevious,

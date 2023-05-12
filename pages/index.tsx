@@ -15,7 +15,7 @@ export default function Home() {
     <GlobalPage>
       <Grid gap="medium">
         <StepByStep step={step} totalSteps={totalSteps} />
-        <Steps step={step} totalSteps={totalSteps} onStepChange={setStep} />
+        <Steps step={step} onStepChange={setStep} />
       </Grid>
       {show && (
         <Notification
