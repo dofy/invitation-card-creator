@@ -13,6 +13,7 @@ interface StepCardProps {
   step: number
   canGoBack?: boolean
   onPrevious?: () => void
+  canNext?: boolean
   onNext?: () => void
   onCompleted?: () => void
   children: React.ReactNode
@@ -27,6 +28,7 @@ const StepCard: React.FC<StepCardProps> = ({
   step,
   canGoBack = false,
   onPrevious,
+  canNext = false,
   onNext,
   onCompleted,
   children,
@@ -58,7 +60,7 @@ const StepCard: React.FC<StepCardProps> = ({
             <></>
           )}
           {!isLast && onNext && (
-            <Button primary label={nextLabel} onClick={onNext} />
+            <Button primary disabled={!canNext} label={nextLabel} onClick={onNext} />
           )}
           {isLast && onCompleted && (
             <Button primary label={completedLabel} onClick={onCompleted} />

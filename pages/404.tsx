@@ -1,7 +1,7 @@
 import GlobalPage from '@/components/GlobalPage'
 import { Box, Button, Heading, Text } from 'grommet'
 
-const Page = () => {
+const Page: React.FC = () => {
   return (
     <GlobalPage>
       <Box align="center">

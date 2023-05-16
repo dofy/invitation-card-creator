@@ -12,17 +12,21 @@ interface IStepsProps {
 
 const Steps: React.FC<IStepsProps> = ({ step, onStepChange }) => {
   const { showMessage } = useData()
+  const [next, setNext] = React.useState(false)
 
   switch (step) {
     case 1:
       return (
-        <StepCard isFirst={true} step={step}>
-          <StepOne
-            onCompleted={() => {
-              showMessage('Success', 'Background Image Uploaded')
-              onStepChange(++step)
-            }}
-          />
+        <StepCard
+          isFirst={true}
+          step={step}
+          canNext={next}
+          onNext={() => {
+            onStepChange(step + 1)
+            setNext(false)
+          }}
+        >
+          <StepOne goNext={() => setNext(true)} />
         </StepCard>
       )
     case 2:
@@ -31,13 +35,13 @@ const Steps: React.FC<IStepsProps> = ({ step, onStepChange }) => {
           step={step}
           canGoBack={true}
           onPrevious={() => onStepChange(step - 1)}
-          onNext={() => onStepChange(step + 1)}
+          canNext={next}
+          onNext={() => {
+            onStepChange(step + 1)
+            setNext(false)
+          }}
         >
-          <StepTwo
-            onCompleted={() => {
-              onStepChange(++step)
-            }}
-          />
+          <StepTwo goNext={() => setNext(true)} />
         </StepCard>
       )
     case 3:

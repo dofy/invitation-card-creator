@@ -5,22 +5,22 @@ import React, { useEffect, useState } from 'react'
 interface ICanvasImageProps {
   width: number
   height: number
-  top: number
-  left: number
-  fontSize: number
-  fontColor: string
-  fontAlign: CanvasTextAlign
+  top?: number
+  left?: number
+  size?: number
+  color?: string
+  align?: CanvasTextAlign
   text: string
 }
 
 const CanvasImage: React.FC<ICanvasImageProps> = ({
   width,
   height,
-  top,
-  left,
-  fontSize,
-  fontColor,
-  fontAlign,
+  top = 0,
+  left = 0,
+  size = 16,
+  color = '#000000',
+  align = 'left',
   text,
 }) => {
   const canvas = createCanvas(width, height)
@@ -29,13 +29,13 @@ const CanvasImage: React.FC<ICanvasImageProps> = ({
   const [src, setSrc] = useState('')
 
   useEffect(() => {
-    ctx.font = `${fontSize}px "ZCOOL XiaoWei"`
-    ctx.fillStyle = fontColor
-    ctx.textAlign = fontAlign
+    ctx.font = `${size}px "ZCOOL XiaoWei"`
+    ctx.fillStyle = color
+    ctx.textAlign = align
     ctx.fillText(text, left, top, width)
 
     setSrc(canvas.toDataURL())
-  }, [canvas, ctx, top, left, fontSize, fontColor, fontAlign, text, width])
+  }, [canvas, ctx, text, width, size, color, align, left, top])
 
   return <Image alt="preview" src={src} />
 }

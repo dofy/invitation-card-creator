@@ -1,9 +1,9 @@
 import { useData } from '@/context/Context'
-import { Box, Button, FileInput } from 'grommet'
-import React, { useEffect, useState } from 'react'
+import { Box, Button, FileInput, Image } from 'grommet'
+import React, { useState } from 'react'
 
 interface IStepOneProps {
-  onCompleted: () => void
+  goNext: () => void
 }
 
 const checkImageType = (files?: File[]) => {
@@ -11,27 +11,15 @@ const checkImageType = (files?: File[]) => {
   return files && files.length > 0 && allowedTypes.includes(files[0].type)
 }
 
-const StepOne: React.FC<IStepOneProps> = ({ onCompleted }) => {
-  const { uuid, setUUID } = useData()
+const StepOne: React.FC<IStepOneProps> = ({ goNext }) => {
+  const { showMessage } = useData()
   const [files, setFiles] = useState<File[]>()
-
-  useEffect(() => {
-    fetch('/api/init', {
-      method: 'GET',
-    })
-      .then((res: Response) => res.json())
-      .then(({ uuid }) => {
-        setUUID(uuid)
-      })
-      .catch((err) => {
-        console.error(err)
-      })
-  }, [setUUID])
+  const [uuid, setUUID] = useState()
 
   const uploadHandler = () => {
     const formData = new FormData()
     files && formData.append('file', files[0])
-    formData.append('uuid', uuid)
+    // formData.append('uuid', uuid)
 
     fetch('/api/upload', {
       method: 'POST',
@@ -40,7 +28,9 @@ const StepOne: React.FC<IStepOneProps> = ({ onCompleted }) => {
       .then((res: Response) => res.json())
       .then((data) => {
         if (data.uuid && data.url) {
-          onCompleted()
+          setUUID(data.uuid)
+          showMessage('Success', 'Background Image Uploaded')
+          goNext()
         }
       })
       .catch((err) => {
@@ -64,6 +54,13 @@ const StepOne: React.FC<IStepOneProps> = ({ onCompleted }) => {
         label="Upload Background"
         onClick={uploadHandler}
       />
+      {uuid && (
+        <Image
+          alt="background"
+          fit="cover"
+          src={`/api/output/${uuid}/background`}
+        />
+      )}
     </Box>
   )
 }

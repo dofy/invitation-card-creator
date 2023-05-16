@@ -1,4 +1,3 @@
-import { useData } from '@/context/Context'
 import {
   Box,
   FormField,
@@ -13,28 +12,32 @@ import CanvasImage from '../CanvasImage'
 import ColorPicker from '../ColorPicker'
 
 interface IStepTwoProps {
-  onCompleted: () => void
+  goNext: () => void
 }
 
-const StepTwo: React.FC<IStepTwoProps> = ({ onCompleted }) => {
-  const { uuid } = useData()
-  const [top, setTop] = useState(0)
-  const [left, setLeft] = useState(0)
+const StepTwo: React.FC<IStepTwoProps> = ({ goNext }) => {
   const [width, setWidth] = useState(0)
   const [height, setHeight] = useState(0)
-  const [size, setSize] = useState(64)
-  const [align, setAlign] = useState<CanvasTextAlign>('left')
+
+  const [left, setLeft] = useState(0)
+  const [top, setTop] = useState(0)
+  const [size, setSize] = useState(0)
   const [color, setColor] = useState('#000000')
+  const [align, setAlign] = useState<CanvasTextAlign>('left')
+
+  // TODO: get UUID from StepOne
+  const uuid = ''
 
   useEffect(() => {
     fetch(`/api/size?uuid=${uuid}`)
       .then((res) => res.json())
       .then(({ width, height }) => {
-        setTop(Math.round(height / 3))
+        // TODO: top init
         setWidth(width)
         setHeight(height)
+        goNext()
       })
-  }, [uuid])
+  }, [goNext])
 
   return (
     <Box gap="medium" pad="small">
@@ -114,10 +117,10 @@ const StepTwo: React.FC<IStepTwoProps> = ({ onCompleted }) => {
               height={height}
               top={top}
               left={left}
-              fontSize={size}
-              fontColor={color}
-              fontAlign={align}
-              text="[匿名 Name]"
+              size={size}
+              color={color}
+              align={align}
+              text="[姓名 Name]"
             />
           </Box>
         </Stack>

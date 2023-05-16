@@ -2,9 +2,7 @@ import GlobalPage from '@/components/GlobalPage'
 import { Box, Button, Header } from 'grommet'
 import React from 'react'
 
-interface IPageProps {}
-
-const Page: React.FC<IPageProps> = (props) => {
+const Page: React.FC = () => {
   return (
     <GlobalPage>
       <Header>About</Header>
