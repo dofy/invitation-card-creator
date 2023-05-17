@@ -11,6 +11,7 @@ type ResData =
       width: number
       height: number
       url: string
+      id: string
     }
   | {
       statusCode: number
@@ -31,13 +32,18 @@ const post = (req: NextApiRequest, res: NextApiResponse<ResData>) => {
     const uuid = fields.uuid || uuidv4()
     const file = files.file as File
     const path = join('output', uuid, 'background')
-    const url = saveFile(uuid as string, file)
+
+    saveFile(uuid as string, file)
 
     imageSize(path, (err: any, dimensions: ResData) => {
       if (err) {
         res.status(500).json({ statusCode: 500, message: err.message })
       } else {
-        res.status(200).json({ uuid: uuid as string, url, ...dimensions })
+        res.status(200).json({
+          uuid: uuid as string,
+          id: file.newFilename,
+          ...dimensions,
+        })
       }
     })
   })
@@ -51,7 +57,6 @@ const saveFile = (uuid: string, file: File) => {
   const data = readFileSync(file.filepath)
   writeFileSync(`${folder}/background`, data)
   unlinkSync(file.filepath)
-  return `/output/${uuid}/background`
 }
 
 const handler = (req: NextApiRequest, res: NextApiResponse<ResData>) => {

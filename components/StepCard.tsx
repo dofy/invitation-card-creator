@@ -5,12 +5,14 @@ import {
   CardFooter,
   CardHeader,
   Heading,
+  Text,
 } from 'grommet'
 
 interface StepCardProps {
   isFirst?: boolean
   isLast?: boolean
   step: number
+  description?: string
   canGoBack?: boolean
   onPrevious?: () => void
   canNext?: boolean
@@ -23,9 +25,10 @@ interface StepCardProps {
 }
 
 const StepCard: React.FC<StepCardProps> = ({
-  isFirst=false,
-  isLast=false,
+  isFirst = false,
+  isLast = false,
   step,
+  description,
   canGoBack = false,
   onPrevious,
   canNext = false,
@@ -43,6 +46,7 @@ const StepCard: React.FC<StepCardProps> = ({
         background={{ dark: 'dark-3', light: 'light-5' }}
       >
         <Heading level={3}>{`STEP ${step} :`}</Heading>
+        {description && <Text as="em"> {description} </Text>}
       </CardHeader>
       <CardBody pad="medium">{children}</CardBody>
       {(onPrevious || onNext || (isLast && onCompleted)) && (
@@ -60,7 +64,12 @@ const StepCard: React.FC<StepCardProps> = ({
             <></>
           )}
           {!isLast && onNext && (
-            <Button primary disabled={!canNext} label={nextLabel} onClick={onNext} />
+            <Button
+              primary
+              disabled={!canNext}
+              label={nextLabel}
+              onClick={onNext}
+            />
           )}
           {isLast && onCompleted && (
             <Button primary label={completedLabel} onClick={onCompleted} />

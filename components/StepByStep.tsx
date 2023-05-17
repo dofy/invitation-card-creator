@@ -12,15 +12,17 @@ const StepByStep = ({ step, totalSteps, onStep }: StepProps) => {
   return (
     <Stack guidingChild="last" margin="small">
       <Diagram
-        connections={steps.map((s) => {
-          const done = s < step
-          return {
-            fromTarget: `step-${s}`,
-            toTarget: `step-${s + 1}`,
-            color: done ? 'brand' : 'light-4',
-            thickness: done ? 'xsmall' : 'xxsmall',
-          }
-        })}
+        connections={steps
+          .filter((_, i) => i < totalSteps - 1)
+          .map((s) => {
+            const done = s < step
+            return {
+              fromTarget: `step-${s}`,
+              toTarget: `step-${s + 1}`,
+              color: done ? 'brand' : 'light-4',
+              thickness: done ? 'xsmall' : 'xxsmall',
+            }
+          })}
       />
       <Box direction="row" justify="around" align="center">
         {steps.map((s) => {

@@ -1,21 +1,25 @@
 import GlobalPage from '@/components/GlobalPage'
 import StepByStep from '@/components/StepByStep'
-import Steps from '@/components/Steps/Steps'
+import Steps from '@/components/Steps'
 import { useData } from '@/context/Context'
 import { Grid, Notification } from 'grommet'
-import React from 'react'
+import { useRouter } from 'next/router'
 
 export default function Home() {
-  // TODO: get current step from url query
   const totalSteps = 3
-  const [step, setStep] = React.useState(1)
+
   const { show, title, message, hideMessage } = useData()
+
+  const router = useRouter()
+  const { step } = router.query
+
+  const currentStep = step ? parseInt(step as string) : 1
 
   return (
     <GlobalPage>
       <Grid gap="medium">
-        <StepByStep step={step} totalSteps={totalSteps} />
-        <Steps step={step} onStepChange={setStep} />
+        <StepByStep step={currentStep} totalSteps={totalSteps} />
+        <Steps step={currentStep} />
       </Grid>
       {show && (
         <Notification
