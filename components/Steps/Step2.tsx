@@ -1,7 +1,7 @@
+import { replaceParams, toNumber } from '@/utils/Tools'
 import {
   Box,
   FormField,
-  Heading,
   Image,
   RadioButtonGroup,
   RangeInput,
@@ -18,25 +18,6 @@ const Step2: React.FC = () => {
 
   const { id, uuid, width, height, x, y, s, c, a } = router.query
 
-  const replaceParams = (params: any) => {
-    router.replace(
-      {
-        pathname: '/',
-        query: {
-          ...router.query,
-          ...params,
-        },
-      },
-      undefined,
-      { shallow: true }
-    )
-  }
-
-  const toNumber = (
-    value: string | string[] | undefined,
-    defaultValue = 0
-  ): number => parseInt(value as string, 10) || defaultValue
-
   const defaultY = (): number => {
     const result = toNumber(y)
     const imgHeight = toNumber(height)
@@ -47,7 +28,7 @@ const Step2: React.FC = () => {
   return (
     <StepCard
       step={2}
-      description="Update the Name Box position and style"
+      description="Setup the Name Box position and style"
       canGoBack={true}
       onPrevious={() => router.back()}
       canNext={true}
@@ -57,6 +38,7 @@ const Step2: React.FC = () => {
           query: {
             ...router.query,
             step: 3,
+            id: null,
           },
         })
       }
@@ -71,7 +53,7 @@ const Step2: React.FC = () => {
                   min={0}
                   max={toNumber(width, 10)}
                   onChange={({ target: { value } }) => {
-                    replaceParams({ x: value })
+                    replaceParams(router, { x: value })
                   }}
                 />
               </FormField>
@@ -83,7 +65,7 @@ const Step2: React.FC = () => {
                   min={0}
                   max={toNumber(height, 10)}
                   onChange={({ target: { value } }) => {
-                    replaceParams({ y: value })
+                    replaceParams(router, { y: value })
                   }}
                 />
               </FormField>
@@ -95,7 +77,7 @@ const Step2: React.FC = () => {
                   min={12}
                   max={512}
                   onChange={({ target: { value } }) => {
-                    replaceParams({ s: value })
+                    replaceParams(router, { s: value })
                   }}
                 />
               </FormField>
@@ -110,7 +92,7 @@ const Step2: React.FC = () => {
                   direction="row"
                   options={['left', 'center', 'right']}
                   onChange={({ target: { value } }) =>
-                    replaceParams({ a: value })
+                    replaceParams(router, { a: value })
                   }
                 />
               </FormField>
@@ -120,7 +102,7 @@ const Step2: React.FC = () => {
                 <ColorPicker
                   color={(c as string) || '#000000'}
                   onChange={(c) => {
-                    replaceParams({ c })
+                    replaceParams(router, { c })
                   }}
                 />
               </FormField>

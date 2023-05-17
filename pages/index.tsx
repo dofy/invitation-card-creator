@@ -6,12 +6,11 @@ import { Grid, Notification } from 'grommet'
 import { useRouter } from 'next/router'
 
 export default function Home() {
-  const totalSteps = 3
-
   const { show, title, message, hideMessage } = useData()
 
   const router = useRouter()
   const { step } = router.query
+  const totalSteps = 4
 
   const currentStep = step ? parseInt(step as string) : 1
 

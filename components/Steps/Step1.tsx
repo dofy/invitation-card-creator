@@ -19,17 +19,17 @@ const Step1: React.FC = () => {
   const [canNext, setCanNext] = useState<boolean>(false)
 
   useEffect(() => {
-    if (!canNext && uuid && width && height) {
+    if (!canNext && uuid && id) {
       setCanNext(true)
     }
-  }, [canNext, height, uuid, width])
+  }, [canNext, uuid, id])
 
   const uploadHandler = () => {
     const formData = new FormData()
     files && formData.append('file', files[0])
     uuid && formData.append('uuid', uuid as string)
 
-    fetch('/api/upload', {
+    fetch('/api/upload/image', {
       method: 'POST',
       body: formData,
     })
@@ -57,14 +57,17 @@ const Step1: React.FC = () => {
       canNext={canNext}
       onNext={() => {
         hideMessage()
-        router.push(
-          `/?step=2&id=${id}&uuid=${uuid}&width=${width}&height=${height}`
-        )
+        router.push({
+          pathname: '/',
+          query: {
+            ...router.query,
+            step: 2,
+          },
+        })
       }}
     >
       <Box gap="medium" pad="small">
         <FileInput
-          name="bgfile"
           messages={{ dropPrompt: 'Drop your background image here or' }}
           onChange={(_, files) => {
             setFiles(files?.files)

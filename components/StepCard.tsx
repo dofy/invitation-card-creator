@@ -72,7 +72,12 @@ const StepCard: React.FC<StepCardProps> = ({
             />
           )}
           {isLast && onCompleted && (
-            <Button primary label={completedLabel} onClick={onCompleted} />
+            <Button
+              primary
+              disabled={!canNext}
+              label={completedLabel}
+              onClick={onCompleted}
+            />
           )}
         </CardFooter>
       )}

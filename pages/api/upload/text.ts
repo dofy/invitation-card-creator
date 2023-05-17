@@ -1,17 +1,13 @@
 import type { File } from 'formidable'
 import formidable from 'formidable'
-import { mkdirSync, readFileSync, unlinkSync, writeFileSync } from 'fs'
+import fs, { mkdirSync, readFileSync, unlinkSync, writeFileSync } from 'fs'
 import { NextApiRequest, NextApiResponse } from 'next'
 import path from 'path'
-import { v4 as uuidv4 } from 'uuid'
 
 type ResData =
   | {
-      uuid: string
-      width: number
-      height: number
-      url: string
       id: string
+      content: string
     }
   | {
       statusCode: number
@@ -26,25 +22,16 @@ export const config = {
 
 const post = (req: NextApiRequest, res: NextApiResponse<ResData>) => {
   const form = new formidable.IncomingForm()
-  const { imageSize } = require('image-size')
-  const { join } = require('path')
-  form.parse(req, (err, fields, files) => {
-    const uuid = fields.uuid || uuidv4()
+  form.parse(req, (_, fields, files) => {
+    const uuid = fields.uuid
     const file = files.file as File
-    const path = join('output', uuid, 'background')
+
+    const content = fs.readFileSync(file.filepath, 'utf8')
 
     saveFile(uuid as string, file)
-
-    imageSize(path, (err: any, dimensions: ResData) => {
-      if (err) {
-        res.status(500).json({ statusCode: 500, message: err.message })
-      } else {
-        res.status(200).json({
-          uuid: uuid as string,
-          id: file.newFilename,
-          ...dimensions,
-        })
-      }
+    res.status(200).json({
+      id: file.newFilename,
+      content,
     })
   })
 }
@@ -55,7 +42,7 @@ const saveFile = (uuid: string, file: File) => {
   mkdirSync(folder, { recursive: true })
   // read and write file
   const data = readFileSync(file.filepath)
-  writeFileSync(`${folder}/background`, data)
+  writeFileSync(`${folder}/name-list`, data)
   unlinkSync(file.filepath)
 }
 
