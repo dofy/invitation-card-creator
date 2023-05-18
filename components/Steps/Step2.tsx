@@ -30,7 +30,7 @@ const Step2: React.FC = () => {
       step={2}
       description="设置嘉宾姓名的位置与样式"
       canGoBack={true}
-      onPrevious={() => router.back()}
+      onPrevious={() => replaceParams(router, { step: 1 })}
       canNext={true}
       onNext={() =>
         router.push({

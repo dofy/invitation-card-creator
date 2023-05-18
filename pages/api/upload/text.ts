@@ -42,7 +42,7 @@ const saveFile = (uuid: string, file: File) => {
   mkdirSync(folder, { recursive: true })
   // read and write file
   const data = readFileSync(file.filepath)
-  writeFileSync(`${folder}/name-list`, data)
+  writeFileSync(`${folder}/names`, data)
   unlinkSync(file.filepath)
 }
 

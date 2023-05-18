@@ -2,15 +2,16 @@ import type { File } from 'formidable'
 import formidable from 'formidable'
 import { mkdirSync, readFileSync, unlinkSync, writeFileSync } from 'fs'
 import { NextApiRequest, NextApiResponse } from 'next'
-import path from 'path'
+import path, { join } from 'path'
 import { v4 as uuidv4 } from 'uuid'
 
 type ResData =
   | {
       uuid: string
+      // TODO: remove
+      id: string
       width: number
       height: number
-      id: string
     }
   | {
       statusCode: number
@@ -26,31 +27,32 @@ export const config = {
 const post = (req: NextApiRequest, res: NextApiResponse<ResData>) => {
   const form = new formidable.IncomingForm()
   const { imageSize } = require('image-size')
-  const { join } = require('path')
   form.parse(req, (_, fields, files) => {
-    const uuid = fields.uuid || uuidv4()
+    const uuid = (fields.uuid as string) || uuidv4()
     const file = files.file as File
-    const path = join('output', uuid, 'background')
 
-    saveFile(uuid as string, file)
+    saveFile(uuid, file)
 
-    imageSize(path, (err: any, dimensions: ResData) => {
-      if (err) {
-        res.status(500).json({ statusCode: 500, message: err.message })
-      } else {
-        res.status(200).json({
-          uuid: uuid as string,
-          id: file.newFilename,
-          ...dimensions,
-        })
+    imageSize(
+      join('output', uuid, 'background'),
+      (err: any, dimensions: any) => {
+        if (err) {
+          res.status(500).json({ statusCode: 500, message: err.message })
+        } else {
+          writeFileSync(
+            join('output', uuid, 'config'),
+            JSON.stringify(dimensions)
+          )
+          res.status(200).json({ uuid, ...dimensions, id: file.newFilename })
+        }
       }
-    })
+    )
   })
 }
 
 const saveFile = (uuid: string, file: File) => {
   // create path
-  const folder = path.join(process.cwd(), 'output', uuid)
+  const folder = path.join('output', uuid)
   mkdirSync(folder, { recursive: true })
   // read and write file
   const data = readFileSync(file.filepath)

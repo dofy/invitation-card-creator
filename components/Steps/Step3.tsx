@@ -1,7 +1,7 @@
 import { useData } from '@/context/Context'
 import { replaceParams } from '@/utils/Tools'
-import { Box, Button, FileInput, Text, TextArea } from 'grommet'
-import { CloudUpload } from 'grommet-icons'
+import { Box, Button, FileInput, Markdown, Text } from 'grommet'
+import { Chat, CloudUpload } from 'grommet-icons'
 import { useRouter } from 'next/router'
 import React, { useEffect, useState } from 'react'
 import StepCard from '../StepCard'
@@ -19,17 +19,22 @@ const Step3: React.FC = () => {
 
   const [files, setFiles] = useState<File[]>()
   const [canNext, setCanNext] = useState<boolean>(false)
-  const [content, setContent] = useState<string>()
+  const [names, setNames] = useState<string[]>()
 
   useEffect(() => {
     if (!canNext && uuid && id) {
       setCanNext(true)
     }
     if (canNext) {
-      fetch(`/api/output/${uuid}/name-list?type=text`)
+      fetch(`/api/output/${uuid}/names?type=json`)
         .then((res) => res.json())
         .then(({ content }) => {
-          setContent(content)
+          setNames(
+            content
+              .split(/\r\n|\r|\n/)
+              .map((name: string) => name.trim())
+              .filter(Boolean)
+          )
         })
     }
   }, [canNext, uuid, id])
@@ -61,7 +66,7 @@ const Step3: React.FC = () => {
       step={3}
       description="上传嘉宾列表"
       canGoBack={true}
-      onPrevious={() => router.back()}
+      onPrevious={() => replaceParams(router, { step: 2 })}
       canNext={canNext}
       onNext={() => {
         hideMessage()
@@ -70,11 +75,18 @@ const Step3: React.FC = () => {
           query: {
             ...router.query,
             step: 4,
+            id: null,
           },
         })
       }}
     >
       <Box gap="medium" pad="small">
+        <Box direction="row" gap="small">
+          <Chat color="focus" />
+          <Text as="em" color="focus">
+            嘉宾列表请保存成 txt 文件, 每行一个姓名.
+          </Text>
+        </Box>
         <FileInput
           messages={{
             dropPrompt: '拖拽「受邀嘉宾列表」到这里，或者',
@@ -90,15 +102,18 @@ const Step3: React.FC = () => {
           label="上传嘉宾列表"
           onClick={uploadHandler}
         />
-        <Text size="small" as="em" color="focus">
-          💡 嘉宾列表请保存成 txt 文件, 每行一个姓名.
-        </Text>
-        {content && (
-          <TextArea
-            readOnly
-            value={content}
-            rows={Math.min(content.split(/\r\n|\r|\n/).length, 7)}
-          />
+        {names && (
+          <Box>
+            <Box>嘉宾列表预览（共{names.length}人）:</Box>
+            <Box
+              height="small"
+              overflow="auto"
+              pad="small"
+              background="light-2"
+            >
+              <Markdown>{`1. ${names.join('\n1. ')}`}</Markdown>
+            </Box>
+          </Box>
         )}
       </Box>
     </StepCard>
