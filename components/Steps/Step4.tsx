@@ -1,7 +1,7 @@
-import { Box, Button, TextArea } from 'grommet'
-import { Tools } from 'grommet-icons'
+import { Box, Button } from 'grommet'
+import { Brush, Tools } from 'grommet-icons'
 import { useRouter } from 'next/router'
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import StepCard from '../StepCard'
 
 const Step4: React.FC = () => {
@@ -9,52 +9,43 @@ const Step4: React.FC = () => {
   const { uuid, id } = router.query
 
   const [canNext, setCanNext] = useState<boolean>(false)
-  const [content, setContent] = useState<string>('')
-
-  useEffect(() => {
-    fetch(`/api/output/${uuid}/name-list?type=text`)
-      .then((res) => res.json())
-      .then(({ content }) => {
-        setContent(content)
-      })
-  }, [uuid, id])
+  const [busy, setBusy] = useState<boolean>(false)
 
   const createHandler = () => {
-    fetch(`/api/output/${uuid}/create`, {
+    setBusy(true)
+    fetch(`/api/create`, {
       method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
       body: JSON.stringify(router.query),
     })
       .then((res) => res.json())
-      .then(({ content }) => {
+      .then((data) => {
+        console.log(data)
         setCanNext(true)
+        setBusy(false)
       })
   }
 
   return (
     <StepCard
       step={4}
-      description="Create Images and compress"
+      description="制作邀请函并生成压缩文件"
       canNext={canNext}
       isLast={true}
       onCompleted={() => router.push(`/output/${uuid}/download.zip?id=${id}`)}
-      completedLabel="Download Images"
+      completedLabel="下载所有邀请函"
       canGoBack={true}
       onPrevious={() => router.back()}
     >
       <Box gap="medium" pad="small">
         <Box>
-          <TextArea
-            readOnly
-            rows={Math.min(content.split(/\r\n|\r|\n/).length, 7)}
-          >
-            {content}
-          </TextArea>
-        </Box>
-        <Box>
           <Button
             primary
-            label="Create Images"
-            icon={<Tools />}
+            label="开始制作"
+            icon={<Brush />}
+            busy={busy}
             onClick={() => createHandler()}
           />
         </Box>

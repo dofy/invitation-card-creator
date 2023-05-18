@@ -1,5 +1,6 @@
 import { useData } from '@/context/Context'
 import { Box, Button, FileInput, Image } from 'grommet'
+import { CloudUpload } from 'grommet-icons'
 import { useRouter } from 'next/router'
 import React, { useEffect, useState } from 'react'
 import StepCard from '../StepCard'
@@ -37,7 +38,7 @@ const Step1: React.FC = () => {
       .then((data) => {
         const { uuid, width, height, id } = data
         if (uuid && id) {
-          showMessage('Success', 'Background Image Uploaded')
+          showMessage('恭喜 🎉', '背景图片上传完成.')
           router.push({
             pathname: '/',
             query: { uuid, width, height, id },
@@ -53,7 +54,7 @@ const Step1: React.FC = () => {
     <StepCard
       isFirst={true}
       step={1}
-      description="Upload your background image"
+      description="上传背景图片"
       canNext={canNext}
       onNext={() => {
         hideMessage()
@@ -68,14 +69,18 @@ const Step1: React.FC = () => {
     >
       <Box gap="medium" pad="small">
         <FileInput
-          messages={{ dropPrompt: 'Drop your background image here or' }}
+          messages={{
+            dropPrompt: '拖拽「背景图片」到这里, 或者',
+            browse: '浏览...',
+          }}
           onChange={(_, files) => {
             setFiles(files?.files)
           }}
         />
         <Button
           disabled={!checkImageType(files)}
-          label="Upload Background"
+          icon={<CloudUpload />}
+          label="上传图片"
           onClick={uploadHandler}
         />
         {uuid && (

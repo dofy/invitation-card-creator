@@ -1,6 +1,7 @@
 import { useData } from '@/context/Context'
 import { replaceParams } from '@/utils/Tools'
-import { Box, Button, FileInput, TextArea } from 'grommet'
+import { Box, Button, FileInput, Text, TextArea } from 'grommet'
+import { CloudUpload } from 'grommet-icons'
 import { useRouter } from 'next/router'
 import React, { useEffect, useState } from 'react'
 import StepCard from '../StepCard'
@@ -46,7 +47,7 @@ const Step3: React.FC = () => {
       .then(({ id }) => {
         if (id) {
           setCanNext(true)
-          showMessage('Success', 'Name-List File Uploaded')
+          showMessage('恭喜 🎉', '嘉宾列表上传完成.')
           replaceParams(router, { id })
         }
       })
@@ -58,7 +59,7 @@ const Step3: React.FC = () => {
   return (
     <StepCard
       step={3}
-      description="Upload the Name-List file"
+      description="上传嘉宾列表"
       canGoBack={true}
       onPrevious={() => router.back()}
       canNext={canNext}
@@ -75,23 +76,29 @@ const Step3: React.FC = () => {
     >
       <Box gap="medium" pad="small">
         <FileInput
-          messages={{ dropPrompt: 'Drop your Name-List file here or' }}
+          messages={{
+            dropPrompt: '拖拽「受邀嘉宾列表」到这里，或者',
+            browse: '浏览...',
+          }}
           onChange={(_, files) => {
             setFiles(files?.files)
           }}
         />
         <Button
           disabled={!checkImageType(files)}
-          label="Upload Name-List"
+          icon={<CloudUpload />}
+          label="上传嘉宾列表"
           onClick={uploadHandler}
         />
+        <Text size="small" as="em" color="focus">
+          💡 嘉宾列表请保存成 txt 文件, 每行一个姓名.
+        </Text>
         {content && (
           <TextArea
             readOnly
+            value={content}
             rows={Math.min(content.split(/\r\n|\r|\n/).length, 7)}
-          >
-            {content}
-          </TextArea>
+          />
         )}
       </Box>
     </StepCard>

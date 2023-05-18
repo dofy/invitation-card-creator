@@ -35,9 +35,9 @@ const StepCard: React.FC<StepCardProps> = ({
   onNext,
   onCompleted,
   children,
-  previousLabel = 'Previous',
-  nextLabel = 'Next',
-  completedLabel = 'Completed',
+  previousLabel = '上一步',
+  nextLabel = '下一步',
+  completedLabel = '完成',
 }) => {
   return (
     <Card>
@@ -45,7 +45,7 @@ const StepCard: React.FC<StepCardProps> = ({
         pad={{ horizontal: 'large', vertical: 'none' }}
         background={{ dark: 'dark-3', light: 'light-5' }}
       >
-        <Heading level={3}>{`STEP ${step} :`}</Heading>
+        <Heading level={3}>{`步骤 ${step} :`}</Heading>
         {description && <Text as="em"> {description} </Text>}
       </CardHeader>
       <CardBody pad="medium">{children}</CardBody>

@@ -28,7 +28,7 @@ const Step2: React.FC = () => {
   return (
     <StepCard
       step={2}
-      description="Setup the Name Box position and style"
+      description="设置嘉宾姓名的位置与样式"
       canGoBack={true}
       onPrevious={() => router.back()}
       canNext={true}
@@ -71,7 +71,7 @@ const Step2: React.FC = () => {
               </FormField>
             </Box>
             <Box fill={true}>
-              <FormField label={`Font Size: ${toNumber(s, 64)}`}>
+              <FormField label={`字号: ${toNumber(s, 64)}px`}>
                 <RangeInput
                   value={toNumber(s, 64)}
                   min={12}
@@ -85,12 +85,16 @@ const Step2: React.FC = () => {
           </Box>
           <Box direction="row">
             <Box fill={true}>
-              <FormField label="Text Align:">
+              <FormField label="文本对齐方式:">
                 <RadioButtonGroup
                   name="align"
                   value={a || 'left'}
                   direction="row"
-                  options={['left', 'center', 'right']}
+                  options={[
+                    { label: '居左', value: 'left' },
+                    { label: '居中', value: 'center' },
+                    { label: '居右', value: 'right' },
+                  ]}
                   onChange={({ target: { value } }) =>
                     replaceParams(router, { a: value })
                   }
@@ -98,7 +102,7 @@ const Step2: React.FC = () => {
               </FormField>
             </Box>
             <Box fill={true}>
-              <FormField label="Font Color:">
+              <FormField label="文字颜色:">
                 <ColorPicker
                   color={(c as string) || '#000000'}
                   onChange={(c) => {
@@ -124,8 +128,8 @@ const Step2: React.FC = () => {
                 top={defaultY()}
                 left={toNumber(x)}
                 size={toNumber(s, 64)}
-                color={c as string}
-                align={a as CanvasTextAlign}
+                color={(c as string) || '#000000'}
+                align={(a as CanvasTextAlign) || 'left'}
                 text="[姓名 Name]"
               />
             </Box>
