@@ -6,13 +6,25 @@
             use grommet
         </comment>
     </note>
-    <note priority="medium" time="1681796282">
+    <note priority="medium" time="1681796282" done="1684447802">
         output folder -&gt; uuid -&gt; background &amp; dist folder
+        <comment>
+            done
+        </comment>
     </note>
-    <note priority="medium" time="1681797081">
+    <note priority="medium" time="1681797081" done="1684447805">
         input fields: background images, name position and font size, name list file
+        <comment>
+            done
+        </comment>
     </note>
-    <note priority="medium" time="1681797162">
+    <note priority="medium" time="1681797162" done="1684447808">
         Use a step-by-step operation method
+        <comment>
+            done
+        </comment>
+    </note>
+    <note priority="medium" time="1684447822">
+        优化流程
     </note>
 </todo>
