@@ -16,6 +16,7 @@ const handler = (req: NextApiRequest, res: NextApiResponse) => {
     switch (type) {
       case 'stat':
         res.status(200).json({ exists: existsSync(url) })
+        break
       case 'json':
         res.status(200).json({ content: readFileSync(url, 'utf8') })
         break
