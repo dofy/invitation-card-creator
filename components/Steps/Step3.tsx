@@ -6,14 +6,14 @@ import { useRouter } from 'next/router'
 import React, { useEffect, useState } from 'react'
 import StepCard from '../StepCard'
 
-const checkImageType = (files?: File[]) => {
+const checkFileType = (files?: File[]) => {
   const allowedTypes = ['text/plain']
   return files && files.length > 0 && allowedTypes.includes(files[0].type)
 }
 
 const Step3: React.FC = () => {
   const router = useRouter()
-  const { uuid, id } = router.query
+  const { uuid } = router.query
 
   const { showMessage, hideMessage } = useData()
 
@@ -21,39 +21,40 @@ const Step3: React.FC = () => {
   const [canNext, setCanNext] = useState<boolean>(false)
   const [names, setNames] = useState<string[]>()
 
+  const clearNames = (content: string): string[] => {
+    return content
+      .split(/\r\n|\r|\n/)
+      .map((name: string) => name.trim())
+      .filter(Boolean)
+  }
+
   useEffect(() => {
-    if (!canNext && uuid && id) {
-      setCanNext(true)
-    }
-    if (canNext) {
-      fetch(`/api/output/${uuid}/names?type=json`)
-        .then((res) => res.json())
-        .then(({ content }) => {
-          setNames(
-            content
-              .split(/\r\n|\r|\n/)
-              .map((name: string) => name.trim())
-              .filter(Boolean)
-          )
-        })
-    }
-  }, [canNext, uuid, id])
+    fetch(`/api/output/${uuid}/names?type=json`)
+      .then((res) => res.json())
+      .then(({ content }) => {
+        setCanNext(true)
+        setNames(clearNames(content))
+      })
+      .catch((err) => {
+        console.error(err)
+      })
+  }, [uuid])
 
   const uploadHandler = () => {
     const formData = new FormData()
     files && formData.append('file', files[0])
     formData.append('uuid', uuid as string)
 
-    fetch('/api/upload/text', {
+    fetch('/api/upload/names', {
       method: 'POST',
       body: formData,
     })
       .then((res: Response) => res.json())
-      .then(({ id }) => {
-        if (id) {
+      .then(({ content }) => {
+        if (content) {
           setCanNext(true)
+          setNames(clearNames(content))
           showMessage('恭喜 🎉', '嘉宾列表上传完成.')
-          replaceParams(router, { id })
         }
       })
       .catch((err) => {
@@ -70,14 +71,7 @@ const Step3: React.FC = () => {
       canNext={canNext}
       onNext={() => {
         hideMessage()
-        router.push({
-          pathname: '/',
-          query: {
-            ...router.query,
-            step: 4,
-            id: null,
-          },
-        })
+        replaceParams(router, { step: 4 })
       }}
     >
       <Box gap="medium" pad="small">
@@ -97,7 +91,7 @@ const Step3: React.FC = () => {
           }}
         />
         <Button
-          disabled={!checkImageType(files)}
+          disabled={!checkFileType(files)}
           icon={<CloudUpload />}
           label="上传嘉宾列表"
           onClick={uploadHandler}

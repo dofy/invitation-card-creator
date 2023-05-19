@@ -1,3 +1,4 @@
+import { Config } from '@/types'
 import { replaceParams, toNumber } from '@/utils/Tools'
 import {
   Box,
@@ -8,21 +9,45 @@ import {
   Stack,
 } from 'grommet'
 import { useRouter } from 'next/router'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import CanvasImage from '../CanvasImage'
 import ColorPicker from '../ColorPicker'
 import StepCard from '../StepCard'
 
 const Step2: React.FC = () => {
   const router = useRouter()
+  const { uuid } = router.query
 
-  const { id, uuid, width, height, x, y, s, c, a } = router.query
+  const [config, setConfig] = useState<Config>()
 
-  const defaultY = (): number => {
-    const result = toNumber(y)
-    const imgHeight = toNumber(height)
+  const [v, setV] = useState<number>()
 
-    return result || (imgHeight ? Math.round(imgHeight / 3) : 0)
+  useEffect(() => {
+    if (uuid) {
+      setV(Math.random())
+      fetch(`/api/output/${uuid}/config`)
+        .then((res) => res.json())
+        .then((config) => {
+          setConfig({
+            x: 0,
+            s: 64,
+            a: 'left',
+            c: '#000000',
+            y: Math.round(config.height / 3),
+            ...config,
+          })
+        })
+    }
+  }, [uuid])
+
+  const saveConfig = () => {
+    fetch(`/api/config`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ uuid, config }),
+    })
   }
 
   return (
@@ -32,53 +57,56 @@ const Step2: React.FC = () => {
       canGoBack={true}
       onPrevious={() => replaceParams(router, { step: 1 })}
       canNext={true}
-      onNext={() =>
-        router.push({
-          pathname: '/',
-          query: {
-            ...router.query,
-            step: 3,
-            id: null,
-          },
-        })
-      }
+      onNext={() => {
+        saveConfig()
+        replaceParams(router, { step: 3 })
+      }}
     >
       <Box gap="medium" pad="small">
         <Box gap="samll">
           <Box direction="row">
             <Box fill={true}>
-              <FormField label={`X: ${toNumber(x)}`}>
+              <FormField label={`X: ${config?.x}`}>
                 <RangeInput
-                  value={toNumber(x)}
+                  value={config?.x}
                   min={0}
-                  max={toNumber(width, 10)}
-                  onChange={({ target: { value } }) => {
-                    replaceParams(router, { x: value })
-                  }}
+                  max={config?.width}
+                  onChange={({ target: { value } }) =>
+                    setConfig({
+                      ...config,
+                      x: toNumber(value),
+                    })
+                  }
                 />
               </FormField>
             </Box>
             <Box fill={true}>
-              <FormField label={`Y: ${defaultY()}`}>
+              <FormField label={`Y: ${config?.y}`}>
                 <RangeInput
-                  value={defaultY()}
+                  value={config?.y}
                   min={0}
-                  max={toNumber(height, 10)}
-                  onChange={({ target: { value } }) => {
-                    replaceParams(router, { y: value })
-                  }}
+                  max={config?.height}
+                  onChange={({ target: { value } }) =>
+                    setConfig({
+                      ...config,
+                      y: toNumber(value),
+                    })
+                  }
                 />
               </FormField>
             </Box>
             <Box fill={true}>
-              <FormField label={`字号: ${toNumber(s, 64)}px`}>
+              <FormField label={`字号: ${config?.s}px`}>
                 <RangeInput
-                  value={toNumber(s, 64)}
+                  value={config?.s}
                   min={12}
                   max={512}
-                  onChange={({ target: { value } }) => {
-                    replaceParams(router, { s: value })
-                  }}
+                  onChange={({ target: { value } }) =>
+                    setConfig({
+                      ...config,
+                      s: toNumber(value),
+                    })
+                  }
                 />
               </FormField>
             </Box>
@@ -88,7 +116,7 @@ const Step2: React.FC = () => {
               <FormField label="文本对齐方式:">
                 <RadioButtonGroup
                   name="align"
-                  value={a || 'left'}
+                  value={config?.a}
                   direction="row"
                   options={[
                     { label: '居左', value: 'left' },
@@ -96,7 +124,10 @@ const Step2: React.FC = () => {
                     { label: '居右', value: 'right' },
                   ]}
                   onChange={({ target: { value } }) =>
-                    replaceParams(router, { a: value })
+                    setConfig({
+                      ...config,
+                      a: value as CanvasTextAlign,
+                    })
                   }
                 />
               </FormField>
@@ -104,10 +135,13 @@ const Step2: React.FC = () => {
             <Box fill={true}>
               <FormField label="文字颜色:">
                 <ColorPicker
-                  color={(c as string) || '#000000'}
-                  onChange={(c) => {
-                    replaceParams(router, { c })
-                  }}
+                  color={config?.c as string}
+                  onChange={(c) =>
+                    setConfig({
+                      ...config,
+                      c,
+                    })
+                  }
                 />
               </FormField>
             </Box>
@@ -117,19 +151,19 @@ const Step2: React.FC = () => {
           <Stack>
             <Box>
               <Image
-                alt={`background width:${width} height:${height}`}
-                src={`/api/output/${uuid}/background?id=${id}`}
+                alt={`background image`}
+                src={`/api/output/${uuid}/background?v=${v}`}
               />
             </Box>
             <Box>
               <CanvasImage
-                width={toNumber(width, 10)}
-                height={toNumber(height, 10)}
-                top={defaultY()}
-                left={toNumber(x)}
-                size={toNumber(s, 64)}
-                color={(c as string) || '#000000'}
-                align={(a as CanvasTextAlign) || 'left'}
+                width={config?.width as number}
+                height={config?.height as number}
+                top={config?.y}
+                left={config?.x}
+                size={config?.s}
+                color={config?.c}
+                align={config?.a}
                 text="[姓名 Name]"
               />
             </Box>

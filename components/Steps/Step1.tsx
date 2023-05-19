@@ -1,4 +1,5 @@
 import { useData } from '@/context/Context'
+import { replaceParams } from '@/utils/Tools'
 import { Box, Button, FileInput, Image } from 'grommet'
 import { CloudUpload } from 'grommet-icons'
 import { useRouter } from 'next/router'
@@ -19,6 +20,8 @@ const Step1: React.FC = () => {
   const [files, setFiles] = useState<File[]>()
   const [canNext, setCanNext] = useState<boolean>(false)
 
+  const [v, setV] = useState<number>()
+
   useEffect(() => {
     if (!canNext && uuid) {
       setCanNext(true)
@@ -30,18 +33,16 @@ const Step1: React.FC = () => {
     files && formData.append('file', files[0])
     uuid && formData.append('uuid', uuid as string)
 
-    fetch('/api/upload/image', {
+    fetch('/api/upload/background', {
       method: 'POST',
       body: formData,
     })
       .then((res: Response) => res.json())
       .then(({ uuid }) => {
+        setV(Math.random())
         if (uuid) {
           showMessage('恭喜 🎉', '背景图片上传完成.')
-          router.push({
-            pathname: '/',
-            query: { uuid },
-          })
+          replaceParams(router, { uuid })
         }
       })
       .catch((err) => {
@@ -57,13 +58,7 @@ const Step1: React.FC = () => {
       canNext={canNext}
       onNext={() => {
         hideMessage()
-        router.push({
-          pathname: '/',
-          query: {
-            ...router.query,
-            step: 2,
-          },
-        })
+        replaceParams(router, { step: 2 })
       }}
     >
       <Box gap="medium" pad="small">
@@ -85,7 +80,7 @@ const Step1: React.FC = () => {
         {uuid && (
           <Image
             alt={`background image`}
-            src={`/api/output/${uuid}/background?v=${Math.random()}`}
+            src={`/api/output/${uuid}/background?v=${v}`}
           />
         )}
       </Box>

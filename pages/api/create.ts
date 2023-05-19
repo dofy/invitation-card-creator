@@ -7,20 +7,12 @@ import path from 'path'
 
 type ResData =
   | {
-      id: string
+      ok: boolean
     }
   | {
       statusCode: number
       message: string
     }
-
-const defaultBody = (height: number) => ({
-  x: 0,
-  y: Math.round(height / 3),
-  s: 64,
-  c: '#000000',
-  a: 'left',
-})
 
 const makeImage = (payload: any, image: Image, name: string): Buffer => {
   const { width, height, x, y, s, c, a } = payload
@@ -38,18 +30,14 @@ const makeImage = (payload: any, image: Image, name: string): Buffer => {
 
 // create images and zip files
 const create = (req: NextApiRequest, res: NextApiResponse<ResData>) => {
-  const { body } = req
-  const payload = {
-    ...defaultBody(body.height),
-    ...body,
-  }
-
   // create images and zip files
-  const { uuid } = payload
-  const cwd = process.cwd()
-  const font = path.join(cwd, 'fonts', 'ZCOOLXiaoWei-Regular.ttf')
-  const base = path.join(cwd, 'output', uuid)
+  const { uuid } = req.body
+  const font = path.join('fonts', 'ZCOOLXiaoWei-Regular.ttf')
+  const base = path.join('output', uuid)
   const zip = new AdmZip()
+
+  // read config file
+  const config = JSON.parse(readFileSync(path.join(base, 'config'), 'utf-8'))
 
   // register font
   registerFont(font, { family: 'ZCOOLXiaoWei' })
@@ -64,14 +52,17 @@ const create = (req: NextApiRequest, res: NextApiResponse<ResData>) => {
       .filter(Boolean)
       // create images and zip files
       .forEach((name) => {
-        zip.addFile(`${filenamify(name)}.png`, makeImage(payload, image, name))
+        zip.addFile(`${filenamify(name)}.png`, makeImage(config, image, name))
       })
 
     // save zip file
-    zip.writeZip(path.join(base, 'invitation.zip'))
-
-    // response random id
-    res.status(200).json({ id: Math.random().toString(36).substring(2) })
+    zip.writeZip(path.join(base, 'invitation.zip'), (err) => {
+      if (err) {
+        res.status(500).json({ statusCode: 500, message: err.message })
+      } else {
+        res.status(200).json({ ok: true })
+      }
+    })
   })
 }
 

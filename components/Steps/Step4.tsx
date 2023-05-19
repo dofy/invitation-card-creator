@@ -10,19 +10,26 @@ const Step4: React.FC = () => {
   const { showMessage } = useData()
 
   const router = useRouter()
-  const { uuid, id } = router.query
+  const { uuid } = router.query
 
   const [canNext, setCanNext] = useState<boolean>(false)
   const [busy, setBusy] = useState<boolean>(false)
+  const [v, setV] = useState<number>()
 
   useEffect(() => {
-    if (!canNext && uuid && id) {
-      setCanNext(true)
-    }
-  }, [canNext, uuid, id])
+    fetch(`/api/output/${uuid}/invitation.zip?type=stat`)
+      .then((res) => res.json())
+      .then(({ exists }) => {
+        setCanNext(exists)
+      })
+      .catch((err) => {
+        console.error(err)
+      })
+  }, [uuid])
 
   const createHandler = () => {
     setBusy(true)
+    setCanNext(false)
     fetch(`/api/create`, {
       method: 'POST',
       headers: {
@@ -31,9 +38,9 @@ const Step4: React.FC = () => {
       body: JSON.stringify(router.query),
     })
       .then((res) => res.json())
-      .then(({ id }) => {
+      .then(() => {
         showMessage('恭喜 🎉', '邀请函制作完成, \n现在可以下载了.')
-        replaceParams(router, { id })
+        setV(Math.random())
         setCanNext(true)
         setBusy(false)
       })
@@ -46,7 +53,7 @@ const Step4: React.FC = () => {
       canNext={canNext}
       isLast={true}
       onCompleted={() =>
-        router.push(`/api/output/${uuid}/invitation.zip?id=${id}`)
+        router.push(`/api/output/${uuid}/invitation.zip?v=${v}`)
       }
       completedLabel="下载邀请函"
       canGoBack={true}
@@ -59,11 +66,22 @@ const Step4: React.FC = () => {
           </Box>
         )}
         {canNext ? (
-          <Box direction="row" gap="small">
-            <Validate color="focus" />
-            <Text as="em" color="focus">
-              邀请函制作完成, 点击下方按钮下载. 
-            </Text>
+          <Box gap="small">
+            <Box direction="row" gap="small">
+              <Validate color="focus" />
+              <Text as="em" color="focus">
+                邀请函制作完成, 点击下方按钮下载.
+              </Text>
+            </Box>
+            <Box>
+              <Button
+                primary
+                label="重新生成邀请函"
+                icon={<Brush />}
+                busy={busy}
+                onClick={() => createHandler()}
+              />
+            </Box>
           </Box>
         ) : (
           <Box>

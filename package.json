@@ -8,6 +8,7 @@
     "start": "next start",
     "lint": "next lint"
   },
+  "types": "./types",
   "dependencies": {
     "adm-zip": "^0.5.10",
     "canvas": "^2.11.2",

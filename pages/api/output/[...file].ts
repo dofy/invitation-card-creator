@@ -10,7 +10,7 @@ export const config = {
 
 const handler = (req: NextApiRequest, res: NextApiResponse) => {
   const { file, type } = req.query
-  const url = path.join(process.cwd(), 'output', ...(file as string[]))
+  const url = path.join('output', ...(file as string[]))
 
   try {
     switch (type) {
