@@ -12,7 +12,7 @@ const checkImageType = (files?: File[]) => {
 
 const Step1: React.FC = () => {
   const router = useRouter()
-  const { uuid, width, height, id } = router.query
+  const { uuid } = router.query
 
   const { showMessage, hideMessage } = useData()
 
@@ -20,10 +20,10 @@ const Step1: React.FC = () => {
   const [canNext, setCanNext] = useState<boolean>(false)
 
   useEffect(() => {
-    if (!canNext && uuid && id) {
+    if (!canNext && uuid) {
       setCanNext(true)
     }
-  }, [canNext, uuid, id])
+  }, [canNext, uuid])
 
   const uploadHandler = () => {
     const formData = new FormData()
@@ -35,13 +35,12 @@ const Step1: React.FC = () => {
       body: formData,
     })
       .then((res: Response) => res.json())
-      .then((data) => {
-        const { uuid, width, height, id } = data
-        if (uuid && id) {
+      .then(({ uuid }) => {
+        if (uuid) {
           showMessage('恭喜 🎉', '背景图片上传完成.')
           router.push({
             pathname: '/',
-            query: { uuid, width, height, id },
+            query: { uuid },
           })
         }
       })
@@ -85,8 +84,8 @@ const Step1: React.FC = () => {
         />
         {uuid && (
           <Image
-            alt={`background width:${width} height:${height}`}
-            src={`/api/output/${uuid}/background?id=${id}`}
+            alt={`background image`}
+            src={`/api/output/${uuid}/background?v=${Math.random()}`}
           />
         )}
       </Box>

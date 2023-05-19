@@ -8,10 +8,6 @@ import { v4 as uuidv4 } from 'uuid'
 type ResData =
   | {
       uuid: string
-      // TODO: remove
-      id: string
-      width: number
-      height: number
     }
   | {
       statusCode: number
@@ -43,7 +39,7 @@ const post = (req: NextApiRequest, res: NextApiResponse<ResData>) => {
             join('output', uuid, 'config'),
             JSON.stringify(dimensions)
           )
-          res.status(200).json({ uuid, ...dimensions, id: file.newFilename })
+          res.status(200).json({ uuid })
         }
       }
     )
