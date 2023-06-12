@@ -9,13 +9,13 @@ import {
   Stack,
   Text,
 } from 'grommet'
+import { Notification } from 'grommet-icons'
 import { useRouter } from 'next/router'
 import React, { useEffect, useState } from 'react'
 import { useHotkeys } from 'react-hotkeys-hook'
 import CanvasImage from '../CanvasImage'
 import ColorPicker from '../ColorPicker'
 import StepCard from '../StepCard'
-import { Notification } from 'grommet-icons'
 
 const Step2: React.FC = () => {
   const router = useRouter()

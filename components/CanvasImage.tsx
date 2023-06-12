@@ -1,6 +1,7 @@
 import { createCanvas } from 'canvas'
 import { Image } from 'grommet'
 import React, { useEffect, useState } from 'react'
+import list from '../fonts/list.json'
 
 interface ICanvasImageProps {
   width: number
@@ -22,7 +23,9 @@ const CanvasImage: React.FC<ICanvasImageProps> = ({
   size = 16,
   color = '#000000',
   align = 'left',
-  font = 'Zhi Mang Xing',
+  font = 'ZCOOL QingKe HuangYou',
+  // font = 'Noto Sans SC',
+  // font = 'Zhi Mang Xing',
   // font = 'Long Cang',
   // font = 'ZCOOL XiaoWei',
   text,
@@ -32,8 +35,10 @@ const CanvasImage: React.FC<ICanvasImageProps> = ({
 
   const [src, setSrc] = useState('')
 
+  console.log(list)
+
   useEffect(() => {
-    ctx.font = `${size}px "${font}"`
+    ctx.font = `lighter ${size}px "${font}"`
     ctx.fillStyle = color
     ctx.textAlign = align
     ctx.fillText(text, left, top, width)

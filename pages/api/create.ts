@@ -6,8 +6,8 @@ import { NextApiRequest, NextApiResponse } from 'next'
 import path from 'path'
 
 // const FontName = 'ZCOOLXiaoWei'
-// const FontName = 'LongCang'
-const FontName = 'ZhiMangXing'
+const FontName = 'LongCang'
+// const FontName = 'ZhiMangXing'
 
 type ResData =
   | {
@@ -44,7 +44,7 @@ const create = (req: NextApiRequest, res: NextApiResponse<ResData>) => {
   const config = JSON.parse(readFileSync(path.join(base, 'config'), 'utf-8'))
 
   // register font
-  registerFont(font, { family: FontName })
+  registerFont(font, { family: FontName, weight: '400' })
   // read background image
   loadImage(path.join(base, 'background')).then((image) => {
     // read names file

@@ -1,0 +1,76 @@
+[
+  {
+    "name": "Liu Jian Mao Cao",
+    "ext": "ttf",
+    "weight": {
+      "400": "Regular"
+    }
+  },
+  {
+    "name": "Long Cang",
+    "ext": "ttf",
+    "weight": {
+      "400": "Regular"
+    }
+  },
+  {
+    "name": "Ma Shan Zheng",
+    "ext": "ttf",
+    "weight": {
+      "400": "Regular"
+    }
+  },
+  {
+    "name": "Noto Sans SC",
+    "ext": "otf",
+    "weight": {
+      "100": "Thin",
+      "300": "Light",
+      "400": "Regular",
+      "500": "Medium",
+      "700": "Bold",
+      "900": "Black"
+    }
+  },
+  {
+    "name": "Noto Serif SC",
+    "ext": "otf",
+    "weight": {
+      "200": "ExtraLight",
+      "300": "Light",
+      "400": "Regular",
+      "500": "Medium",
+      "600": "SemiBold",
+      "700": "Bold",
+      "900": "Black"
+    }
+  },
+  {
+    "name": "ZCOOL KuaiLe",
+    "ext": "ttf",
+    "weight": {
+      "400": "Regular"
+    }
+  },
+  {
+    "name": "ZCOOL QingKe HuangYou",
+    "ext": "ttf",
+    "weight": {
+      "400": "Regular"
+    }
+  },
+  {
+    "name": "ZCOOL XiaoWei",
+    "ext": "ttf",
+    "weight": {
+      "400": "Regular"
+    }
+  },
+  {
+    "name": "Zhi Mang Xing",
+    "ext": "ttf",
+    "weight": {
+      "400": "Regular"
+    }
+  }
+]
