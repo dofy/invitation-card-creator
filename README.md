@@ -26,4 +26,5 @@ A tool to quickly create multiple Invitation Card images.
 - [uuid](https://www.npmjs.com/package/uuid)
 - [Google Fonts](https://fonts.google.com/)
   - [ZCOOL XiaoWei](https://fonts.google.com/share?selection.family=ZCOOL%20XiaoWei)
+  - [Long Cang](https://fonts.google.com/share?selection.family=Long%20Cang)
 - [iconfont](https://www.iconfont.cn/)

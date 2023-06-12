@@ -8,7 +8,8 @@ import React from 'react'
 const theme: ThemeType = deepMerge(grommet, {
   global: {
     font: {
-      family: 'ZCOOL XiaoWei',
+      // family: 'ZCOOL XiaoWei',
+      // family: 'Long Cang',
       height: '1.7em',
     },
     colors: {

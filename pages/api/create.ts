@@ -5,6 +5,9 @@ import { readFileSync } from 'fs'
 import { NextApiRequest, NextApiResponse } from 'next'
 import path from 'path'
 
+// const FontName = 'ZCOOLXiaoWei'
+const FontName = 'LongCang'
+
 type ResData =
   | {
       ok: boolean
@@ -19,7 +22,7 @@ const makeImage = (payload: any, image: Image, name: string): Buffer => {
   const canvas = createCanvas(parseInt(width, 10), parseInt(height, 10))
   const ctx = canvas.getContext('2d')
   ctx.drawImage(image, 0, 0, width, height)
-  ctx.font = `${s}px ZCOOLXiaoWei`
+  ctx.font = `${s}px ${FontName}`
   ctx.fillStyle = c
   ctx.textAlign = a
 
@@ -32,7 +35,7 @@ const makeImage = (payload: any, image: Image, name: string): Buffer => {
 const create = (req: NextApiRequest, res: NextApiResponse<ResData>) => {
   // create images and zip files
   const { uuid } = req.body
-  const font = path.join('fonts', 'ZCOOLXiaoWei-Regular.ttf')
+  const font = path.join('fonts', `${FontName}/${FontName}-Regular.ttf`)
   const base = path.join('output', uuid)
   const zip = new AdmZip()
 
@@ -40,7 +43,7 @@ const create = (req: NextApiRequest, res: NextApiResponse<ResData>) => {
   const config = JSON.parse(readFileSync(path.join(base, 'config'), 'utf-8'))
 
   // register font
-  registerFont(font, { family: 'ZCOOLXiaoWei' })
+  registerFont(font, { family: FontName })
   // read background image
   loadImage(path.join(base, 'background')).then((image) => {
     // read names file

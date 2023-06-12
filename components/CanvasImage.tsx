@@ -10,6 +10,7 @@ interface ICanvasImageProps {
   size?: number
   color?: string
   align?: CanvasTextAlign
+  font?: string
   text: string
 }
 
@@ -21,6 +22,8 @@ const CanvasImage: React.FC<ICanvasImageProps> = ({
   size = 16,
   color = '#000000',
   align = 'left',
+  font = 'Long Cang',
+  // font = 'ZCOOL XiaoWei',
   text,
 }) => {
   const canvas = createCanvas(width, height)
@@ -29,13 +32,13 @@ const CanvasImage: React.FC<ICanvasImageProps> = ({
   const [src, setSrc] = useState('')
 
   useEffect(() => {
-    ctx.font = `${size}px "ZCOOL XiaoWei"`
+    ctx.font = `${size}px "${font}"`
     ctx.fillStyle = color
     ctx.textAlign = align
     ctx.fillText(text, left, top, width)
 
     setSrc(canvas.toDataURL())
-  }, [canvas, ctx, text, width, size, color, align, left, top])
+  }, [canvas, ctx, text, width, size, color, align, left, top, font])
 
   return <Image alt="preview" src={src} />
 }
