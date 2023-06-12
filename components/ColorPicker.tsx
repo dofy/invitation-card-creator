@@ -19,8 +19,11 @@ const ColorPicker: React.FC<IColorPickerProps> = ({ color, onChange }) => {
       <Box
         onClick={() => setShow(!show)}
         background={color}
-        pad={'15.2px'}
+        pad={'14.2px'}
         margin="small"
+        border={{
+          color: 'brand',
+        }}
       />
       {show && (
         <GithubPicker

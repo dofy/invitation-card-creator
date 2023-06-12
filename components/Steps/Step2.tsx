@@ -15,6 +15,7 @@ import React, { useEffect, useState } from 'react'
 import { useHotkeys } from 'react-hotkeys-hook'
 import CanvasImage from '../CanvasImage'
 import ColorPicker from '../ColorPicker'
+import FontSelector from '../FontSelector'
 import StepCard from '../StepCard'
 
 const Step2: React.FC = () => {
@@ -199,6 +200,23 @@ const Step2: React.FC = () => {
               </FormField>
             </Box>
           </Box>
+          <Box direction="row">
+            <Box fill={true}>
+              <FontSelector
+                config={config}
+                onChange={({ option }) => {
+                  const { label, value } = option
+                  const [font, weight] = value.split(':')
+                  setConfig({
+                    ...config,
+                    fn: label,
+                    f: font,
+                    w: weight,
+                  })
+                }}
+              />
+            </Box>
+          </Box>
         </Box>
         <Box flex="grow">
           <Stack>
@@ -217,6 +235,8 @@ const Step2: React.FC = () => {
                 size={config?.s}
                 color={config?.c}
                 align={config?.a}
+                font={config?.f}
+                weight={config?.w}
                 text="[姓名 Name]"
               />
             </Box>
