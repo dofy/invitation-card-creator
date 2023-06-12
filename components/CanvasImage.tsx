@@ -22,7 +22,8 @@ const CanvasImage: React.FC<ICanvasImageProps> = ({
   size = 16,
   color = '#000000',
   align = 'left',
-  font = 'Long Cang',
+  font = 'Zhi Mang Xing',
+  // font = 'Long Cang',
   // font = 'ZCOOL XiaoWei',
   text,
 }) => {

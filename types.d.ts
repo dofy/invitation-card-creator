@@ -8,4 +8,5 @@ type Config = {
   s?: number
   c?: string
   a?: CanvasTextAlign
+  f?: string
 }

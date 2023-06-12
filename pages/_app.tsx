@@ -10,6 +10,7 @@ const theme: ThemeType = deepMerge(grommet, {
     font: {
       // family: 'ZCOOL XiaoWei',
       // family: 'Long Cang',
+      // family: 'Zhi Mang Xing',
       height: '1.7em',
     },
     colors: {

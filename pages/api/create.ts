@@ -6,7 +6,8 @@ import { NextApiRequest, NextApiResponse } from 'next'
 import path from 'path'
 
 // const FontName = 'ZCOOLXiaoWei'
-const FontName = 'LongCang'
+// const FontName = 'LongCang'
+const FontName = 'ZhiMangXing'
 
 type ResData =
   | {

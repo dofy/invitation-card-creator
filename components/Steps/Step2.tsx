@@ -7,12 +7,15 @@ import {
   RadioButtonGroup,
   RangeInput,
   Stack,
+  Text,
 } from 'grommet'
 import { useRouter } from 'next/router'
 import React, { useEffect, useState } from 'react'
+import { useHotkeys } from 'react-hotkeys-hook'
 import CanvasImage from '../CanvasImage'
 import ColorPicker from '../ColorPicker'
 import StepCard from '../StepCard'
+import { Notification } from 'grommet-icons'
 
 const Step2: React.FC = () => {
   const router = useRouter()
@@ -21,6 +24,56 @@ const Step2: React.FC = () => {
   const [config, setConfig] = useState<Config>()
 
   const [v, setV] = useState<number>()
+
+  useHotkeys(
+    [
+      'left',
+      'right',
+      'up',
+      'down',
+      'shift+up',
+      'shift+down',
+      'l',
+      'r',
+      'c',
+      'h',
+    ],
+    (_, handler) => {
+      let newConfig = {}
+      switch (handler.keys?.join('')) {
+        case 'left':
+          newConfig = { x: (config?.x ?? 0) - 1 }
+          break
+        case 'right':
+          newConfig = { x: (config?.x ?? 0) + 1 }
+          break
+        case 'h':
+          newConfig = { x: Math.round((config?.width ?? 0) / 2) }
+          break
+        case 'up':
+          newConfig = handler.shift
+            ? { s: (config?.s ?? 0) + 1 }
+            : { y: (config?.y ?? 0) - 1 }
+          break
+        case 'down':
+          newConfig = handler.shift
+            ? { s: (config?.s ?? 0) - 1 }
+            : { y: (config?.y ?? 0) + 1 }
+          break
+        case 'l':
+          newConfig = { a: 'left' }
+          break
+        case 'r':
+          newConfig = { a: 'right' }
+          break
+        case 'c':
+          newConfig = { a: 'center' }
+          break
+      }
+      setConfig({ ...config, ...newConfig })
+    },
+    { enableOnFormTags: true, preventDefault: true }
+  )
 
   useEffect(() => {
     if (uuid) {
@@ -168,6 +221,20 @@ const Step2: React.FC = () => {
               />
             </Box>
           </Stack>
+        </Box>
+        <Box>
+          <Text size="small" as="strong" color="brand">
+            <Notification color="brand" size="small" /> 提示:
+          </Text>
+          <Text size="small" as="em" color="brand">
+            - 方向键微调文字位置， Shift+上/下 微调字号。
+          </Text>
+          <Text size="small" as="em" color="brand">
+            - 按 L、C、R 可以快速设置文字的对齐方式。
+          </Text>
+          <Text size="small" as="em" color="brand">
+            - 按 H 设置文字横向居中。
+          </Text>
         </Box>
       </Box>
     </StepCard>
