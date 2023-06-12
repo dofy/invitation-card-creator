@@ -1,3 +1,4 @@
+import { fonts } from '@/utils/Fonts'
 import AdmZip from 'adm-zip'
 import { Image, createCanvas, loadImage, registerFont } from 'canvas'
 import filenamify from 'filenamify'
@@ -5,9 +6,17 @@ import { readFileSync } from 'fs'
 import { NextApiRequest, NextApiResponse } from 'next'
 import path from 'path'
 
-// const FontName = 'ZCOOLXiaoWei'
-const FontName = 'LongCang'
-// const FontName = 'ZhiMangXing'
+// register font
+fonts.forEach((font) => {
+  const { family, ext, weights } = font
+  weights.forEach((weight) => {
+    const { value, name } = weight
+    const folder = family.replaceAll(' ', '_')
+    const file = family.replaceAll(' ', '')
+    const fontPath = path.join('fonts', `${folder}/${file}-${name}.${ext}`)
+    registerFont(fontPath, { family, weight: value.toString() })
+  })
+})
 
 type ResData =
   | {
@@ -19,11 +28,11 @@ type ResData =
     }
 
 const makeImage = (payload: any, image: Image, name: string): Buffer => {
-  const { width, height, x, y, s, c, a } = payload
+  const { width, height, x, y, s, c, a, f, w } = payload
   const canvas = createCanvas(parseInt(width, 10), parseInt(height, 10))
   const ctx = canvas.getContext('2d')
   ctx.drawImage(image, 0, 0, width, height)
-  ctx.font = `${s}px ${FontName}`
+  ctx.font = `${w} ${s}px "${f}"`
   ctx.fillStyle = c
   ctx.textAlign = a
 
@@ -36,15 +45,12 @@ const makeImage = (payload: any, image: Image, name: string): Buffer => {
 const create = (req: NextApiRequest, res: NextApiResponse<ResData>) => {
   // create images and zip files
   const { uuid } = req.body
-  const font = path.join('fonts', `${FontName}/${FontName}-Regular.ttf`)
   const base = path.join('output', uuid)
   const zip = new AdmZip()
 
   // read config file
   const config = JSON.parse(readFileSync(path.join(base, 'config'), 'utf-8'))
 
-  // register font
-  registerFont(font, { family: FontName, weight: '400' })
   // read background image
   loadImage(path.join(base, 'background')).then((image) => {
     // read names file
