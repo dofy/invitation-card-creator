@@ -35,6 +35,7 @@ const makeImage = (payload: any, image: Image, name: string): Buffer => {
   ctx.font = `${weight} ${size}px "${font}"`
   ctx.fillStyle = color
   ctx.textAlign = align
+  ctx.textBaseline = 'middle'
 
   ctx.fillText(name, x, y)
 
