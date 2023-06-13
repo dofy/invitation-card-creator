@@ -91,6 +91,7 @@ const Step3: React.FC = () => {
           }}
         />
         <Button
+          primary
           disabled={!checkFileType(files)}
           icon={<CloudUpload />}
           label="上传嘉宾列表"

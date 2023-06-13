@@ -29,47 +29,69 @@ const Step2: React.FC = () => {
 
   useHotkeys(
     [
-      'left',
-      'right',
+      'w', // up
+      's', // down
+      'a', // left
+      'd', // right
+      'q', // -size
+      'e', // +size
+      'shift+w',
+      'shift+s',
+      'shift+a',
+      'shift+d',
+      'shift+q',
+      'shift+e',
+      'h',
+      'j',
+      'k',
+      'l',
+      // extend
       'up',
       'down',
+      'left',
+      'right',
       'shift+up',
       'shift+down',
-      'l',
-      'r',
-      'c',
-      'h',
+      'shift+left',
+      'shift+right',
     ],
     (_, handler) => {
       let newConfig = {}
+      const step = handler.shift ? 10 : 1
       switch (handler.keys?.join('')) {
+        case 'a':
         case 'left':
-          newConfig = { x: (config?.x ?? 0) - 1 }
+          newConfig = { x: (config?.x ?? 0) - step }
           break
+        case 'd':
         case 'right':
-          newConfig = { x: (config?.x ?? 0) + 1 }
+          newConfig = { x: (config?.x ?? 0) + step }
           break
         case 'h':
           newConfig = { x: Math.round((config?.width ?? 0) / 2) }
           break
+        case 'w':
         case 'up':
-          newConfig = handler.shift
-            ? { size: (config?.size ?? 0) + 1 }
-            : { y: (config?.y ?? 0) - 1 }
+          newConfig = { y: (config?.y ?? 0) - step }
           break
+        case 's':
         case 'down':
-          newConfig = handler.shift
-            ? { size: (config?.size ?? 0) - 1 }
-            : { y: (config?.y ?? 0) + 1 }
+          newConfig = { y: (config?.y ?? 0) + step }
           break
-        case 'l':
+        case 'q':
+          newConfig = { size: (config?.size ?? 0) - step }
+          break
+        case 'e':
+          newConfig = { size: (config?.size ?? 0) + step }
+          break
+        case 'j':
           newConfig = { align: 'left' }
           break
-        case 'r':
-          newConfig = { align: 'right' }
-          break
-        case 'c':
+        case 'k':
           newConfig = { align: 'center' }
+          break
+        case 'l':
+          newConfig = { align: 'right' }
           break
       }
       setConfig({ ...config, ...newConfig })
@@ -251,13 +273,19 @@ const Step2: React.FC = () => {
             <Notification color="brand" size="small" /> 提示:
           </Text>
           <Text size="small" as="em" color="brand">
-            - 方向键微调文字位置， Shift+上/下 微调字号。
+            - 方向键微调文字位置，Shift+方向键以 10px 为单位调整文字位置。
           </Text>
           <Text size="small" as="em" color="brand">
-            - 按 L、C、R 可以快速设置文字的对齐方式。
+            - W、S、A、D 等同于方向键。
           </Text>
           <Text size="small" as="em" color="brand">
-            - 按 H 设置文字横向居中。
+            - Q、E 设置文字的大小，配合 Shift 以 10px 为单位调整文字大小。
+          </Text>
+          <Text size="small" as="em" color="brand">
+            - J、K、L 对应文字的对齐方式（左、中、右）。
+          </Text>
+          <Text size="small" as="em" color="brand">
+            - H 将文字横坐标置于图片中心。
           </Text>
         </Box>
       </Box>
