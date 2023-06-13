@@ -28,13 +28,13 @@ type ResData =
     }
 
 const makeImage = (payload: any, image: Image, name: string): Buffer => {
-  const { width, height, x, y, s, c, a, f, w } = payload
+  const { width, height, x, y, size, color, align, font, weight } = payload
   const canvas = createCanvas(parseInt(width, 10), parseInt(height, 10))
   const ctx = canvas.getContext('2d')
   ctx.drawImage(image, 0, 0, width, height)
-  ctx.font = `${w} ${s}px "${f}"`
-  ctx.fillStyle = c
-  ctx.textAlign = a
+  ctx.font = `${weight} ${size}px "${font}"`
+  ctx.fillStyle = color
+  ctx.textAlign = align
 
   ctx.fillText(name, x, y)
 
