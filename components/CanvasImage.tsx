@@ -25,10 +25,6 @@ const CanvasImage: React.FC<ICanvasImageProps> = ({
   align = 'left',
   font = 'ZCOOL QingKe HuangYou',
   weight = 400,
-  // font = 'Noto Sans SC',
-  // font = 'Zhi Mang Xing',
-  // font = 'Long Cang',
-  // font = 'ZCOOL XiaoWei',
   text,
 }) => {
   const canvas = createCanvas(width, height)
@@ -40,7 +36,10 @@ const CanvasImage: React.FC<ICanvasImageProps> = ({
     ctx.font = `${weight} ${size}px "${font}"`
     ctx.fillStyle = color
     ctx.textAlign = align
-    ctx.fillText(text, left, top, width)
+    ctx.textBaseline = 'middle'
+    // ctx.translate(width / 2, height / 2)
+    // ctx.rotate(90 * (Math.PI / 180))
+    ctx.fillText(text, left, top)
 
     setSrc(canvas.toDataURL())
   }, [canvas, ctx, text, width, size, color, align, left, top, font, weight])
