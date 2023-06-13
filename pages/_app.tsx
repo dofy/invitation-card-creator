@@ -8,18 +8,19 @@ import React from 'react'
 const theme: ThemeType = deepMerge(grommet, {
   global: {
     font: {
-      // family: 'ZCOOL XiaoWei',
-      // family: 'Long Cang',
-      // family: 'Zhi Mang Xing',
       height: '1.7em',
     },
     colors: {
-      brand: '#009933',
+      brand: '#339966',
+      text: {
+        dark: '#f9f9f9',
+        light: '#339933',
+      },
       background: {
         dark: '#363636',
         light: '#f9f9f9',
       },
-      focus: '#336600',
+      focus: '#339966',
     },
   },
 })

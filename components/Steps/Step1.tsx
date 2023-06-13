@@ -72,6 +72,7 @@ const Step1: React.FC = () => {
           }}
         />
         <Button
+          primary
           disabled={!checkImageType(files)}
           icon={<CloudUpload />}
           label="上传图片"

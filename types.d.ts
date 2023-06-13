@@ -5,15 +5,15 @@ type Config = {
   height?: number
   x?: number
   y?: number
-  s?: number
-  c?: string
-  a?: CanvasTextAlign
-  fn?: string
-  f?: string
-  w?: number
+  size?: number
+  color?: string
+  align?: CanvasTextAlign
+  font?: string
+  weight?: number
+  fontName?: string
 }
 
-type Option= {
+type Option = {
   label: string
   value: string
 }

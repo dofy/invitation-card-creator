@@ -22,17 +22,23 @@ for (const font of fonts) {
 const FontValue = (config?: Config) => {
   return (
     <Box pad="small">
-      <Text size="large" weight={config?.w} style={{ fontFamily: config?.f }}>
-        {config?.fn}
+      <Text
+        size="large"
+        weight={config?.weight}
+        style={{ fontFamily: config?.font }}
+      >
+        {config?.fontName}
       </Text>
     </Box>
   )
 }
 
-const FontOption = (option: any) => {
+const FontOption = (props: any) => {
+  const { option, config } = props
   const [family, weight] = option.value.split(':')
+  const selected = option.value === `${config?.font}:${config?.weight}`
   return (
-    <Box pad="small">
+    <Box pad="small" background={selected ? 'brand' : ''}>
       <Text
         size="large"
         weight={parseInt(weight, 10)}
@@ -52,7 +58,7 @@ const FontSelector: React.FC<IFontSelectorProps> = ({ config, onChange }) => {
         onChange={onChange}
         value={FontValue(config)}
       >
-        {FontOption}
+        {(option) => <FontOption option={option} config={config} />}
       </Select>
     </FormField>
   )

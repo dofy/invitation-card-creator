@@ -1,4 +1,5 @@
 import { Config } from '@/types'
+import { fonts } from '@/utils/Fonts'
 import { replaceParams, toNumber } from '@/utils/Tools'
 import {
   Box,
@@ -53,22 +54,22 @@ const Step2: React.FC = () => {
           break
         case 'up':
           newConfig = handler.shift
-            ? { s: (config?.s ?? 0) + 1 }
+            ? { size: (config?.size ?? 0) + 1 }
             : { y: (config?.y ?? 0) - 1 }
           break
         case 'down':
           newConfig = handler.shift
-            ? { s: (config?.s ?? 0) - 1 }
+            ? { size: (config?.size ?? 0) - 1 }
             : { y: (config?.y ?? 0) + 1 }
           break
         case 'l':
-          newConfig = { a: 'left' }
+          newConfig = { align: 'left' }
           break
         case 'r':
-          newConfig = { a: 'right' }
+          newConfig = { align: 'right' }
           break
         case 'c':
-          newConfig = { a: 'center' }
+          newConfig = { align: 'center' }
           break
       }
       setConfig({ ...config, ...newConfig })
@@ -84,10 +85,13 @@ const Step2: React.FC = () => {
         .then((config) => {
           setConfig({
             x: 0,
-            s: 64,
-            a: 'left',
-            c: '#000000',
+            size: 64,
+            align: 'left',
+            color: '#000000',
             y: Math.round(config.height / 3),
+            font: fonts[0].family,
+            weight: fonts[0].weights[0].value,
+            fontName: `${fonts[0].family}_${fonts[0].weights[0].name}`,
             ...config,
           })
         })
@@ -150,15 +154,15 @@ const Step2: React.FC = () => {
               </FormField>
             </Box>
             <Box fill={true}>
-              <FormField label={`字号: ${config?.s}px`}>
+              <FormField label={`字号: ${config?.size}px`}>
                 <RangeInput
-                  value={config?.s}
+                  value={config?.size}
                   min={12}
                   max={512}
                   onChange={({ target: { value } }) =>
                     setConfig({
                       ...config,
-                      s: toNumber(value),
+                      size: toNumber(value),
                     })
                   }
                 />
@@ -170,7 +174,7 @@ const Step2: React.FC = () => {
               <FormField label="文本对齐方式:">
                 <RadioButtonGroup
                   name="align"
-                  value={config?.a}
+                  value={config?.align}
                   direction="row"
                   options={[
                     { label: '居左', value: 'left' },
@@ -180,7 +184,7 @@ const Step2: React.FC = () => {
                   onChange={({ target: { value } }) =>
                     setConfig({
                       ...config,
-                      a: value as CanvasTextAlign,
+                      align: value as CanvasTextAlign,
                     })
                   }
                 />
@@ -189,11 +193,11 @@ const Step2: React.FC = () => {
             <Box fill={true}>
               <FormField label="文字颜色:">
                 <ColorPicker
-                  color={config?.c as string}
-                  onChange={(c) =>
+                  color={config?.color as string}
+                  onChange={(color) =>
                     setConfig({
                       ...config,
-                      c,
+                      color,
                     })
                   }
                 />
@@ -209,9 +213,9 @@ const Step2: React.FC = () => {
                   const [font, weight] = value.split(':')
                   setConfig({
                     ...config,
-                    fn: label,
-                    f: font,
-                    w: weight,
+                    font,
+                    weight: parseInt(weight, 10),
+                    fontName: label,
                   })
                 }}
               />
@@ -232,11 +236,11 @@ const Step2: React.FC = () => {
                 height={config?.height as number}
                 top={config?.y}
                 left={config?.x}
-                size={config?.s}
-                color={config?.c}
-                align={config?.a}
-                font={config?.f}
-                weight={config?.w}
+                size={config?.size}
+                color={config?.color}
+                align={config?.align}
+                font={config?.font}
+                weight={config?.weight}
                 text="[姓名 Name]"
               />
             </Box>
